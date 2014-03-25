@@ -1,0 +1,9 @@
+[fwk]
+requestMatcherService = requestMatcher
+resultTypeService = resultTypeService
+viewHelperService = viewHelper
+urlRewriterService = urlRewriter
+consoleService = consoleApp
+sessionService = session
+
+[services]

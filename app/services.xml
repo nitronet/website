@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dependency-injection>
+    <ini category="services">:baseDir/config.ini</ini>
+    
+    <class-definition name="requestMatcher" class="Fwk\Core\Components\RequestMatcher\RequestMatcher" shared="true" />
+    <class-definition name="urlRewriter" class="Fwk\Core\Components\UrlRewriter\UrlRewriterService" shared="true" />
+    <class-definition name="resultTypeService" class="Fwk\Core\Components\ResultType\ResultTypeService" shared="true" />
+    <class-definition name="_vh.embed" class="Fwk\Core\Components\ViewHelper\EmbedViewHelper" shared="true" />
+    <class-definition name="_vh.url" class="Fwk\Core\Components\UrlRewriter\UrlViewHelper" shared="true">
+        <argument>requestMatcher</argument>
+        <argument>urlRewriter</argument>
+    </class-definition>
+    <class-definition name="_vh.escape" class="Fwk\Core\Components\ViewHelper\EscapeViewHelper" shared="true" />
+    <class-definition name="viewHelper" class="Fwk\Core\Components\ViewHelper\ViewHelperService" shared="true">
+        <call method="add">
+            <argument>embed</argument>
+            <argument>@_vh.embed</argument>
+        </call>
+        <call method="add">
+            <argument>url</argument>
+            <argument>@_vh.url</argument>
+        </call>
+        <call method="add">
+            <argument>escape</argument>
+            <argument>@_vh.escape</argument>
+        </call>
+    </class-definition>
+</dependency-injection>

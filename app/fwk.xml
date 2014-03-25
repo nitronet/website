@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fwk id="TestApp" version="1.0-dev">
+    <ini>:baseDir/config.ini</ini>
+    
+    <services xmlMap="Fwk\Di\Xml\ContainerXmlMap" xml=":baseDir/services.xml" />
+    
+    <listener class="Fwk\Core\Components\ErrorReporterListener" />
+    <listener class="Fwk\Core\Components\RequestMatcher\RequestMatcherListener">
+        <param>:requestMatcherService</param>
+    </listener>
+    <listener class="Fwk\Core\Components\ResultType\ResultTypeListener">
+        <param>:resultTypeService</param>
+    </listener>
+    <listener class="Fwk\Core\Components\ViewHelper\ViewHelperListener">
+        <param>:viewHelperService</param>
+    </listener>
+    <listener class="Fwk\Core\Components\UrlRewriter\UrlRewriterListener">
+        <param>:urlRewriterService</param>
+    </listener>
+    <listener class="Fwk\Core\Components\SessionListener">
+        <param>:sessionService</param>
+    </listener>
+    
+    <result-types>
+        <result-type
+            name="php"
+            class="Fwk\Core\Components\ResultType\PhpTemplateResultType">
+            <param name="templatesDir">:packageDir/FwkWWW/templates/php</param>
+        </result-type>
+        <result-type
+            name="json"
+            class="Fwk\Core\Components\ResultType\JsonResultType"
+        />
+        <result-type
+            name="chain"
+            class="Fwk\Core\Components\ResultType\ChainResultType"
+        />
+        <result-type
+            name="redirect"
+            class="Fwk\Core\Components\ResultType\RedirectResultType">
+            <param name="requestMatcher">:requestMatcherService</param>
+            <param name="urlRewriter">:urlRewriterService</param>
+        </result-type>
+    </result-types>
+    
+    <actions>
+        <action name="Home" shortcut="FwkWWW\Controllers\Home:show">
+            <acl type="allow" role="" />
+            <result name="success" type="php">
+                <param name="file">home.php</param>
+            </result>
+        </action>
+    </actions>
+    
+    <url-rewrite>
+        <url route="/" action="Home" />
+    </url-rewrite>
+</fwk>
