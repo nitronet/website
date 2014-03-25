@@ -45,7 +45,6 @@
     
     <actions>
         <action name="Home" shortcut="FwkWWW\Controllers\Home:show">
-            <acl type="allow" role="" />
             <result name="success" type="php">
                 <param name="file">home.php</param>
             </result>
