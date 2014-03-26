@@ -25,13 +25,70 @@
             <argument>@_vh.escape</argument>
         </call>
     </class-definition>
+    
+    <!--
+        TWIG (fwk-twig)
+    -->
+    <array-definition name="twig.config">
+        <param key="debug">true</param>
+    </array-definition>
+    
     <!-- Twig_Loader definition -->
     <class-definition name="twig.loader" class="\Twig_Loader_Filesystem" shared="true">
-        <argument>/home/neiluj/www/framework/www/app/FwkWWW/templates/twig</argument>
+        <argument>:twig.templates.dir</argument>
     </class-definition>
 
     <!-- Twig_Environment definition -->
     <class-definition name="twig" class="\Twig_Environment" shared="true">
         <argument>@twig.loader</argument>
+        <argument>@twig.config</argument>
+        <call method="addExtension">
+            <argument>@assetic.TwigExtension</argument>
+        </call>
     </class-definition>
+    
+    <!--
+        ASSETIC (fwk-assetic)
+    -->
+    <class-definition name="assetic.TwigExtension" class="Assetic\Extension\Twig\AsseticExtension" shared="true">
+        <argument>@assetic.AssetFactory</argument>
+    </class-definition>
+    <class-definition name="assetic.FilterManager" class="Assetic\FilterManager" shared="true" />
+    <!-- Normal AssetManager -->
+    <!-- class-definition name="assetic.AssetManager" class="Assetic\AssetManager" shared="true" / -->
+    <!-- LazyAssetManager -->
+    <array-definition name="assetic.LazyAssetLoaders">
+        <param key="cached">@assetic.CachedFormulaLoader</param>
+    </array-definition>
+    
+    <class-definition name="assetic.FunctionCallsFormulaLoader" class="Assetic\Factory\Loader\FunctionCallsFormulaLoader" shared="true">
+        <argument>@assetic.AssetFactory</argument>
+    </class-definition>
+    <class-definition name="assetic.CachedFormulaLoader" class="Assetic\Factory\Loader\CachedFormulaLoader" shared="true">
+        <argument>@assetic.FunctionCallsFormulaLoader</argument>
+        <argument>@assetic.ConfigCache</argument>
+        <argument>:assetic.debug</argument>
+    </class-definition>
+    <class-definition name="assetic.ConfigCache" class="Assetic\Cache\ConfigCache" shared="true">
+        <argument>:assetic.cache.directory</argument>
+    </class-definition>
+    <class-definition name="assetic.AssetManager" class="Assetic\Factory\LazyAssetManager" shared="true">
+        <argument>@assetic.AssetFactory</argument>
+        <argument>@assetic.LazyAssetLoaders</argument>
+    </class-definition>
+    <class-definition name="assetic.CacheBustingWorker" class="Assetic\Factory\Worker\CacheBustingWorker" shared="true">
+        <argument>:assetic.cache.strategy</argument>
+    </class-definition>
+    <class-definition name="assetic.AssetFactory" class="Assetic\Factory\AssetFactory" shared="true">
+        <argument>:assetic.assets.directory</argument>
+        <argument>:assetic.debug</argument>
+        <call method="setFilterManager">
+            <argument>@assetic.FilterManager</argument>
+        </call>
+        <!-- enable assetic cache -->
+        <call method="addWorker">
+            <argument>@assetic.CacheBustingWorker</argument>
+        </call>
+    </class-definition>
+    
 </dependency-injection>

@@ -7,3 +7,10 @@ consoleService = consoleApp
 sessionService = session
 
 [services]
+twig.templates.dir = :packageDir/FwkWWW/templates/twig
+assetic.assets.directory = :packageDir/FwkWWW/templates/assets
+assetic.debug = true
+assetic.use.cache = true
+assetic.cache.directory = :packageDir/../cache
+; could be content or modification 
+assetic.cache.strategy = content

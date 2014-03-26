@@ -2,7 +2,7 @@
 <fwk id="TestApp" version="1.0-dev">
     <ini>:baseDir/config.ini</ini>
     
-    <services xmlMap="Fwk\Di\Xml\ContainerXmlMap" xml=":baseDir/services.xml" />
+    <services xml=":baseDir/services.xml" />
     
     <listener class="Fwk\Core\Components\ErrorReporterListener" />
     <listener class="Fwk\Core\Components\RequestMatcher\RequestMatcherListener">
@@ -52,6 +52,8 @@
                 <param name="file">home.twig</param>
             </result>
         </action>
+        
+        <action name="Asset" shortcut="FwkAssetic\Controllers\AssetAction:show" />
     </actions>
     
     <url-rewrite>
