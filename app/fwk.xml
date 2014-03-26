@@ -41,12 +41,15 @@
             <param name="requestMatcher">:requestMatcherService</param>
             <param name="urlRewriter">:urlRewriterService</param>
         </result-type>
+        <result-type name="twig" class="FwkTwig\TwigResultType">
+            <param name="twigService">twig</param>
+        </result-type>
     </result-types>
     
     <actions>
         <action name="Home" shortcut="FwkWWW\Controllers\Home:show">
-            <result name="success" type="php">
-                <param name="file">home.php</param>
+            <result name="success" type="twig">
+                <param name="file">home.twig</param>
             </result>
         </action>
     </actions>

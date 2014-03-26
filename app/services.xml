@@ -25,4 +25,13 @@
             <argument>@_vh.escape</argument>
         </call>
     </class-definition>
+    <!-- Twig_Loader definition -->
+    <class-definition name="twig.loader" class="\Twig_Loader_Filesystem" shared="true">
+        <argument>/home/neiluj/www/framework/www/app/FwkWWW/templates/twig</argument>
+    </class-definition>
+
+    <!-- Twig_Environment definition -->
+    <class-definition name="twig" class="\Twig_Environment" shared="true">
+        <argument>@twig.loader</argument>
+    </class-definition>
 </dependency-injection>
