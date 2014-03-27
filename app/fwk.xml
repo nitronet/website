@@ -58,5 +58,8 @@
     
     <url-rewrite>
         <url route="/" action="Home" />
+        <url route="/asset/:asset" action="Asset">
+            <param name="asset" regex=".*" />
+        </url>
     </url-rewrite>
 </fwk>

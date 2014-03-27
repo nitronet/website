@@ -9,7 +9,8 @@ sessionService = session
 [services]
 twig.templates.dir = :packageDir/FwkWWW/templates/twig
 assetic.assets.directory = :packageDir/FwkWWW/templates/assets
-assetic.debug = true
+assetic.debug = false
+assetic.action.name = Asset
 assetic.use.cache = true
 assetic.cache.directory = :packageDir/../cache
 ; could be content or modification 

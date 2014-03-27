@@ -5,3 +5,4 @@
 /phpunit.xml
 /test.php
 /app/config.ini
+/cache/

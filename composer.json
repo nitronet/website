@@ -20,18 +20,15 @@
         "symfony/process": "dev-master",
         "fwk/form": "dev-master",
         "monolog/monolog": "dev-master",
-        "twig/twig": "dev-master",
-        "kriswallsmith/assetic": "dev-master"
+        "nitronet/fwk-twig": "dev-master",
+        "nitronet/fwk-assetic": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "dev-master"
     },
     "autoload": {
         "psr-0": {
-            "Fwk\\Core": "vendor/fwk/core",
-            "FwkWWW": "app",
-            "FwkTwig": "/home/neiluj/www/framework/fwk-twig/src",
-            "FwkAssetic": "/home/neiluj/www/framework/fwk-assetic/src"
+            "FwkWWW": "app"
         }
     }
 }
