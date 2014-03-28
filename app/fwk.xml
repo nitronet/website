@@ -52,14 +52,17 @@
                 <param name="file">home.twig</param>
             </result>
         </action>
-        
         <action name="Asset" shortcut="FwkAssetic\Controllers\AssetAction:show" />
+        <action name="PageView" shortcut="FwkWWW\Controllers\PageView:show" />
     </actions>
     
     <url-rewrite>
         <url route="/" action="Home" />
         <url route="/asset/:asset" action="Asset">
             <param name="asset" regex=".*" />
+        </url>
+        <url route="/page/:page" action="PageView">
+            <param name="page" regex=".*" required="true" />
         </url>
     </url-rewrite>
 </fwk>

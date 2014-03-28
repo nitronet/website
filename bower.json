@@ -1,0 +1,22 @@
+{
+  "name": "fwk/website",
+  "version": "1.0.0",
+  "homepage": "https://github.com/fwk/website",
+  "authors": [
+    "neiluJ <julien@nitronet.org>"
+  ],
+  "description": "Fwk Website",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "BSD",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "directory": "public/bower_components"
+}

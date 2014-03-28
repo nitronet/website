@@ -21,14 +21,16 @@
         "fwk/form": "dev-master",
         "monolog/monolog": "dev-master",
         "nitronet/fwk-twig": "dev-master",
-        "nitronet/fwk-assetic": "dev-master"
+        "nitronet/fwk-assetic": "dev-master",
+        "symfony/yaml": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "dev-master"
     },
     "autoload": {
         "psr-0": {
-            "FwkWWW": "app"
+            "FwkWWW": "app",
+            "FwkAssetic": "/home/neiluj/www/framework/fwk-assetic/src"
         }
     }
 }

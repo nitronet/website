@@ -1,0 +1,28 @@
+name: Nitronet
+namespace: Nitronet
+title: Nitronet Website
+description: Nitronet is the web development lab of neiluJ
+homepage: home
+errorpage: error
+directories: 
+    pages: ./pages
+    sources: ./php
+    assets: ./assets
+    forms: ./forms
+    layouts: ./layouts
+    cache: ../cache
+pages_suffix: ~
+favicon: /path/to/favicon.ico
+default_layout: main.twig
+domain:
+    name: nitronet.org
+    force: true
+config: ~
+
+page_config:
+    cache:
+        enable: false
+        lifetime: 3600
+    config: ~
+    listeners: ~
+    defaults: ~
