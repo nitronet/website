@@ -7,10 +7,10 @@ errorpage: error
 directories: 
     pages: ./pages
     sources: ./php
-    assets: ./assets
+    assets: ./bower_components
     forms: ./forms
-    layouts: ./layouts
     cache: ../cache
+    config: ./config
 pages_suffix: ~
 favicon: /path/to/favicon.ico
 default_layout: main.twig

@@ -47,21 +47,20 @@
     </result-types>
     
     <actions>
-        <action name="Home" shortcut="FwkWWW\Controllers\Home:show">
-            <result name="success" type="twig">
-                <param name="file">home.twig</param>
+        <action name="Asset" shortcut="FwkAssetic\Controllers\AssetAction:show" />
+        <action name="PageView" shortcut="FwkWWW\Controllers\PageView:show">
+            <result name="cms:page" type="twig">
+                <param name="file">:template</param>
             </result>
         </action>
-        <action name="Asset" shortcut="FwkAssetic\Controllers\AssetAction:show" />
-        <action name="PageView" shortcut="FwkWWW\Controllers\PageView:show" />
     </actions>
     
     <url-rewrite>
-        <url route="/" action="Home" />
+        <url route="/" action="PageView" />
         <url route="/asset/:asset" action="Asset">
             <param name="asset" regex=".*" />
         </url>
-        <url route="/page/:page" action="PageView">
+        <url route="/:page" action="PageView">
             <param name="page" regex=".*" required="true" />
         </url>
     </url-rewrite>

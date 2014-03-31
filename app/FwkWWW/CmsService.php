@@ -2,25 +2,72 @@
 namespace FwkWWW;
 
 use Symfony\Component\Yaml\Yaml;
-use FwkWWW\InvalidConfigFile;
+use FwkWWW\Exceptions\InvalidConfigFile;
+use FwkWWW\Exceptions\PageNotFound;
 
 class CmsService
 {
-    const SITE_CONFIG_FILE = 'site.yml';
-    const PAGE_CONFIG_FILE = 'page.yml';
+    const SITE_CONFIG_FILE  = 'site.yml';
+    const PAGES_EXTENSION   = 'twig';
     
-    protected $sitePath;
+    /**
+     * Path utility
+     * @var PathUtils
+     */
+    protected $path;
+    
     protected $configFile;
-    protected $pageConfigFile;
     
     private $config;
     
-    public function __construct($sitePath, 
-        $configFile = null, $pageConfigFile = null
-    ) {
-        $this->sitePath = $sitePath;
-        $this->configFile = (is_null($configFile) ? self::SITE_CONFIG_FILE : $configFile);
-        $this->pageConfigFile = (is_null($pageConfigFile) ? self::PAGE_CONFIG_FILE : $pageConfigFile);
+    public function __construct($sitePath, $configFile = null)
+    {
+        $this->path         = new PathUtils($sitePath);
+        $this->configFile   = (is_null($configFile) ? self::SITE_CONFIG_FILE : $configFile);
+    }
+    
+    public function hasPage($pageName)
+    {
+        $cfg    = $this->getSiteConfig();
+        try {
+            $path   = $this->path->calculate(
+                array(
+                    $cfg['directories']['pages'], 
+                    strtolower($pageName) .'.'. self::PAGES_EXTENSION
+                )
+            );
+        } catch(\FwkWWW\Exception $exp) {
+            return false;
+        }
+        
+        return is_file($path);
+    }
+    
+    public function getPageConfig($pageName)
+    {
+        if (!$this->hasPage($pageName)) {
+            throw new PageNotFound($pageName);
+        }
+        
+        $cfg    = $this->getSiteConfig();
+        try {
+            $path   = $this->path->calculate(
+                array(
+                    $cfg['directories']['config'], 
+                    strtolower($pageName) .'.yml'
+                )
+            );
+        } catch(\FwkWWW\Exception $exp) {
+            return $cfg['page_config'];
+        }
+        
+        try {
+            $pcfg = $this->mergeConfig(Yaml::parse($path), $cfg['page_config']);
+        } catch(\Exception $exp) {
+            throw new InvalidConfigFile($path, null, $exp);
+        }
+
+        return $pcfg;
     }
     
     /**
@@ -35,33 +82,16 @@ class CmsService
             return $this->config;
         }
         
-        $file = $this->sitePath . DIRECTORY_SEPARATOR . $this->configFile;
-        if (!is_file($file)) {
-            throw new InvalidConfigFile($this->configFile);
-        }
-        
         try {
-            $cfg = Yaml::parse($file);
-            $this->config = $this->arrayToObject(
-                $this->mergeConfig($cfg)
-            );
+            $cfg = Yaml::parse($this->path->calculate(array($this->configFile)));
+            $this->config = $this->mergeConfig($cfg);
         } catch(\Exception $exp) {
             throw new InvalidConfigFile($this->configFile, null, $exp);
         }
         
         return $this->config;
     }
-    
-    protected function arrayToObject($array)
-    {
-        if (is_array($array)) {
-            return (object)array_map(array($this, __FUNCTION__), $array);
-        }
-        else {
-            return $array;
-        }
-    }
-    
+   
     /**
      * Default configuration settings
      * 
@@ -81,8 +111,8 @@ class CmsService
                 'sources'   => './php',
                 'assets'    => './assets',
                 'forms'     => './forms',
-                'layouts'   => './layouts',
-                'cache'     => '../cache'
+                'cache'     => '../cache',
+                'config'    => '../config'
             ),
             'page_suffix'   => null,
             'favicon'       => null,
@@ -110,9 +140,12 @@ class CmsService
         );
     }
     
-    protected function mergeConfig(array $userConf)
+    protected function mergeConfig(array $userConf, $source = null)
     {
-        $source = $this->defaultConfigArray();
+        if (null === $source) {
+            $source = $this->defaultConfigArray();
+        }
+        
         $final  = array();
         foreach ($source as $key => $value) {
             if (!is_array($value)) {

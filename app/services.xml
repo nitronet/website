@@ -39,8 +39,13 @@
     </array-definition>
     
     <!-- Twig_Loader definition -->
+    <array-definition name="twig.paths">
+        <param>:packageDir/../site/pages</param>
+        <param>:twig.templates.dir</param>
+    </array-definition>
+    
     <class-definition name="twig.loader" class="\Twig_Loader_Filesystem" shared="true">
-        <argument>:twig.templates.dir</argument>
+        <argument>@twig.paths</argument>
     </class-definition>
 
     <!-- Twig_Environment definition -->
@@ -80,7 +85,7 @@
     </class-definition>
     
     <array-definition name="assetic.Shortcuts">
-        <param key="bower">:packageDir/../public/bower_components</param>
+        <param key="bower">:packageDir/../site/bower_components</param>
         <param key="theme">:twig.templates.dir/assets</param>
     </array-definition>
     

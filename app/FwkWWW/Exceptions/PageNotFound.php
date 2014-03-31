@@ -3,13 +3,13 @@ namespace FwkWWW\Exceptions;
 
 use FwkWWW\Exception;
 
-class InvalidConfigFile extends Exception
+class PageNotFound extends Exception
 {
-    public function __construct($configFile, $code = null, 
+    public function __construct($page, $code = null, 
         \Exception $previous = null
     ) {
         parent::__construct(
-            sprintf("Invalid configuration file: %s", $configFile), 
+            sprintf("Unknown page: %s", $page), 
             $code, 
             $previous
         );
