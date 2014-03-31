@@ -1,0 +1,56 @@
+{% block title %}About - {% endblock title %}
+
+{% extends "layouts/main.twig" %}
+
+{% block contents %}
+<div class="jumbotron" style="padding:0;height:100%;margin-top:-20px; min-height:300px; width:100%" id="mtp-map">
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+        <h1 class="page-header">About</h1>
+        <p class="lead"><b>Nitronet</b> is an attempt to contribute to the OpenSource Community.</p>
+        <p>This is an <b>ordinary paragraph</b> that is <i>long enough</i> to wrap to <u>multiple lines</u> so that you can see how the line spacing looks. This is an <b>ordinary paragraph</b> that is <i>long enough</i> to wrap to <u>multiple lines</u> so that you can see how the line spacing looks. This is an <b>ordinary paragraph</b> that is <i>long enough</i> to wrap to <u>multiple lines</u> so that you can see how the line spacing looks. This is an <b>ordinary paragraph</b> that is <i>long enough</i> to wrap to <u>multiple lines</u> so that you can see how the line spacing looks. This is an <b>ordinary paragraph</b> that is <i>long enough</i> to wrap to <u>multiple lines</u> so that you can see how the line spacing looks. This is an <b>ordinary paragraph</b> that is <i>long enough</i> to wrap to <u>multiple lines</u> so that you can see how the line spacing looks.</p>
+        
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-default" id="images">
+        <div class="panel-heading">About this website</div>
+        <div class="panel-body">
+        pwet
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+function initialize() {
+  var mapOptions = {
+    zoom: 15, // 43.6100219,3.8741615,12 // 43.6100686,3.8762644
+    center: new google.maps.LatLng(43.6100686,3.8762644),
+    styles: [
+    {
+        featureType: "poi",
+        stylers: [
+          { visibility: "off" }
+        ]
+    }]
+  };
+
+  var map = new google.maps.Map(document.getElementById('mtp-map'),
+      mapOptions);
+}
+
+function loadScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
+      'callback=initialize';
+  document.body.appendChild(script);
+}
+
+window.onload = loadScript;
+</script>
+
+
+{% endblock %}

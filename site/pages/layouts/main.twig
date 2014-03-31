@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title %}{% endblock title %} Nitronet</title>
+    <meta name="viewport" content="width=device-width">
+    {% for asset in _helper.asset([
+        '+bower/bootstrap-theme-white-plum/css/bootstrap.min.css'
+    ], 'cssrewrite', 'bootstrap') %}
+    <link rel="stylesheet" href="{{ asset }}">
+    {% endfor %}
+    {% for asset in _helper.asset([
+        '+bower/jquery/jquery.min.js',
+        '+bower/bootstrap/js/bootstrap.min.js'
+    ], null, 'jq-bootstrap') %}
+    <script type="text/javascript" src="{{ asset }}"></script>
+    {% endfor %}
+    {% for asset in _helper.asset([
+        '+theme/css/site.css'
+    ], 'cssrewrite', 'bootstrap') %}
+    <link rel="stylesheet" href="{{ asset }}">
+    {% endfor %}
+{% block headertag %}{% endblock %}
+  </head>
+  
+  <body>
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".header-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ _helper.url('PageView') }}">Nitronet</a>
+        </div>
+        
+        <div class="collapse navbar-collapse header-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ _helper.url('PageView', {page: 'blog'}) }}">Blog</a></li>
+            <li class="dropdown" class="active">
+              <a href="{{ _helper.url('PageView', {page: 'fwk'}) }}" class=" dropdown-toggle" data-toggle="dropdown">Fwk <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk'}) }}">Introduction</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/packages'}) }}">Packages</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/documentation'}) }}">Documentation</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/modules'}) }}">Modules</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/community'}) }}">Community</a></li>
+              </ul>
+            </li>
+            <li class="dropdown" class="active">
+              <a href="#" class=" dropdown-toggle" data-toggle="dropdown">OpenSource <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ _helper.url('PageView', {page: 'opensource/fwk'}) }}">Fwk</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'opensource/cmf'}) }}">CMF</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'opensource/various'}) }}">Various</a></li>
+              </ul>
+            </li>
+            <li><a href="{{ _helper.url('PageView', {page: 'about'}) }}">About</a></li>
+          </ul>
+          <p class="navbar-text navbar-right">Themestrap by <a href="http://www.divshot.com/" target="_blank">Divshot</a></p>
+        </div>
+      </div>
+    </div><!-- /navbar -->
+    
+    {% block contents %}{% endblock %}
+  </body>
+
+</html>
