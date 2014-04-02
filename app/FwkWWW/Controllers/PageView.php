@@ -30,6 +30,9 @@ class PageView extends Controller implements Preparable
         
         try {
             $this->config = $this->getPageConfig();
+            if ($this->config['active'] !== true) {
+                throw new \FwkWWW\Exceptions\PageNotFound($this->page);
+            }
         } catch(\Exception $exp) {
             echo $exp;
             return Result::ERROR;
