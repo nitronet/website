@@ -9,7 +9,6 @@ class PageView extends Controller implements Preparable
 {
     public $page;
     
-    protected $template;
     protected $config;
    
     public function prepare()
@@ -24,7 +23,7 @@ class PageView extends Controller implements Preparable
     
     public function show()
     {
-        if (empty($this->page)) {
+        if (empty($this->page) || !$this->getCmsService()->hasPage($this->page)) {
             return Result::ERROR;
         }
         
@@ -38,10 +37,11 @@ class PageView extends Controller implements Preparable
             return Result::ERROR;
         }
         
-        // calculate the template to-be-rendered for this page
-        $this->template = $this->calculateTemplate();
-        
-        return 'cms:page';
+        return $this->getCmsService()->render($this->page, $this->getContext(), array(
+            '_helper'   => $this->getServices()->get('viewHelper'),
+            'query'     => $this->getContext()->getRequest()->query->all(),
+            'request'   => $this->getContext()->getRequest()->request->all()
+        ));
     }
     
     protected function getPageConfig()
@@ -55,21 +55,6 @@ class PageView extends Controller implements Preparable
         return $this->config;
     }
     
-    protected function calculateTemplate()
-    {
-        $cfg        = $this->getPageConfig();
-        $context    = $this->getContext();
-        
-        // widget
-        if ($context->hasParent()) {
-            return ($cfg['template_widget'] != null ? $cfg['template_widget'] : $this->page .'.twig');
-        } elseif ($context->getRequest()->isXmlHttpRequest()) {
-            return ($cfg['template_ajax'] != null ? $cfg['template_ajax'] : $this->page .'.twig');
-        } 
-        
-        return $this->page .'.twig';
-    }
-    
     /**
      * 
      * @return \FwkWWW\CmsService
@@ -77,10 +62,5 @@ class PageView extends Controller implements Preparable
     protected function getCmsService()
     {
         return $this->getServices()->get('cms');
-    }
-    
-    public function getTemplate()
-    {
-        return $this->template;
     }
 }

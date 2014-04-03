@@ -16,7 +16,7 @@
     {% endfor %}
     {% for asset in _helper.asset([
         '+theme/css/site.css'
-    ], 'cssrewrite', 'bootstrap') %}
+    ], 'cssrewrite', 'site') %}
     <link rel="stylesheet" href="{{ asset }}">
     {% endfor %}
 {% block headertag %}{% endblock %}

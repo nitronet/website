@@ -1,7 +1,7 @@
 <?php
-namespace FwkWWW;
+namespace FwkWWW\Utils;
 
-
+use FwkWWW\Exception;
 
 class PathUtils
 {
