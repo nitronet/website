@@ -108,7 +108,17 @@
     <!--
         CMS
     -->
-    <class-definition name="cms" class="FwkWWW\CmsService" shared="true">
+    <class-definition name="cms.twigProvider" class="FwkWWW\Providers\TwigFilesystemProvider" shared="true">
         <argument>:cms.site.path</argument>
+        <argument>@twig</argument>
+    </class-definition>
+    
+    <array-definition name="cms.Providers">
+        <param key="twig">@cms.twigProvider</param>
+    </array-definition>
+    
+    <class-definition name="cms" class="FwkWWW\CmsService" shared="true">
+        <argument>:packageDir/../site/site.yml</argument>
+        <argument>@cms.Providers</argument>
     </class-definition>
 </dependency-injection>
