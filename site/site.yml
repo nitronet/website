@@ -20,7 +20,7 @@ page_config:
     active: true
     cache:
         public: true
-        enable: false
+        enable: true
         lifetime: 3600
     config: ~
     listeners: ~
