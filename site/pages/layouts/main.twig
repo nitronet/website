@@ -15,8 +15,8 @@
     <script type="text/javascript" src="{{ asset }}"></script>
     {% endfor %}
     {% for asset in _helper.asset([
-        '+theme/css/site.css'
-    ], 'cssrewrite', 'site') %}
+        '+bower/css/site.css'
+    ], 'cssrewrite', 'site2') %}
     <link rel="stylesheet" href="{{ asset }}">
     {% endfor %}
 {% block headertag %}{% endblock %}

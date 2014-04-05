@@ -7,8 +7,11 @@ use FwkWWW\Exceptions\InvalidConfigFile;
 use Fwk\Core\Context;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Fwk\Events\Dispatcher;
+use FwkWWW\Events\BeforePageEvent;
+use FwkWWW\Events\AfterPageEvent;
 
-class CmsService
+class CmsService extends Dispatcher
 {
     /**
      *
@@ -76,6 +79,8 @@ class CmsService
         $provider = $this->getPageProvider($pageName);
         $cfg = $provider->getConfig($pageName, $this->getSiteConfig());
         
+        $this->notify(new BeforePageEvent($pageName, $this, $provider, &$cfg, &$params));
+        
         if ($cfg['active'] !== true) {
             throw new Exceptions\PageNotFound($pageName);
         }
@@ -89,10 +94,12 @@ class CmsService
         $this->handleCacheOptions($pageName, $context, $response, $cfg);
         
         if ($response->isNotModified($context->getRequest())) {
+            $this->notify(new AfterPageEvent($pageName, $this, $provider, $response, $params));
             return $response;
         }
         
         $response->setContent($provider->render($pageName, $context, $this->getSiteConfig(), $params));
+        $this->notify(new AfterPageEvent($pageName, $this, $provider, $response, $params));
         
         return $response;
     }
