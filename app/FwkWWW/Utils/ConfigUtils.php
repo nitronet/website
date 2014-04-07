@@ -48,7 +48,8 @@ class ConfigUtils
                 ),
                 'config'    => array(),
                 'listeners' => array(),
-                'defaults'  => array()
+                'defaults'  => array(),
+                'datasources'   => array()
             )
         );
     }

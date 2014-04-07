@@ -41,7 +41,6 @@
     <!-- Twig_Loader definition -->
     <array-definition name="twig.paths">
         <param>:packageDir/../site/pages</param>
-        <param>:twig.templates.dir</param>
     </array-definition>
     
     <class-definition name="twig.loader" class="\Twig_Loader_Filesystem" shared="true">

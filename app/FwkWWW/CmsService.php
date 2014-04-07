@@ -21,6 +21,7 @@ class CmsService extends Dispatcher
     protected $configFile;
     
     private $config;
+    private $loaded;
     
     public function __construct($configFile, array $providers)
     {
@@ -153,5 +154,24 @@ class CmsService extends Dispatcher
         }
         
         return $this->config;
+    }
+    
+    public function initClassLoader()
+    {
+        if ($this->loaded) {
+            return;
+        }
+        
+        $cfg = $this->getSiteConfig();
+        if (!isset($cfg['namespace']) || !isset($cfg['directories']['sources'])) {
+            return;
+        }
+        
+        $loader = new \Composer\Autoload\ClassLoader();
+        $utils  = new Utils\PathUtils(dirname($this->configFile));
+        $loader->add($cfg['namespace'], $utils->calculate(array($cfg['directories']['sources'])));
+        $loader->register(true);
+        
+        $this->loaded = true;
     }
 }
