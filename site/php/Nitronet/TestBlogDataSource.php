@@ -17,6 +17,7 @@ EOF;
                 'title' => 'Article title',
                 'slug'  => 'article-title',
                 'date'  => '2014-01-02 23:12:56',
+                'category' => 'Fwk',
                 'content' => $content
             ),
             'two'   => array(
@@ -24,6 +25,7 @@ EOF;
                 'title' => 'Other article',
                 'slug'  => 'other-article',
                 'date'  => '2014-01-02 23:12:56',
+                'category' => 'General',
                 'content' => $content
             )
         );
@@ -39,6 +41,17 @@ EOF;
         }
         
         return array();
+    }
+    
+    public function categories()
+    {
+        return array(
+            1 => 'General',
+            2 => 'Fwk',
+            3 => 'PHP',
+            4 => 'How-to\'s',
+            5 => 'Still life'
+        );
     }
 }
 
