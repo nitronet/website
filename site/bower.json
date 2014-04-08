@@ -17,6 +17,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
-  "directory": "public/bower_components"
+  ]
 }

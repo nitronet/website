@@ -2,28 +2,19 @@
 
 {% extends "layouts/blog.twig" %}
 
+{% set blogCategory = query.category|default(null) %}
+    
 {% block blog_contents %}
 <ol class="breadcrumb" style="margin-bottom:40px">
-  <li><a href="#">Blog</a></li>
-  <li class="active"><a href="#">Category</a></li>
+  <li><a href="{{ _helper.url('PageView', {page: 'blog'}, true)|raw }}">Blog</a></li>
+  {% if blogCategory != null %}
+  <li class="active"><a href="{{ _helper.url('PageView', {page: 'blog', category: blogCategory}, true)|raw }}">{{ blogCategory }}</a></li>
+  {% endif %}
 </ol>
-{% set list = articles.fetch() %}
+
+{% set list = articles.fetch([blogCategory]) %}
     {% for article in list %}
-        <h2 style="margin-bottom: 5px;"><a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.slug}, true)|raw }}">{{ article.title }}</a></h2>
-        <div class="btn-group">
-            <p style="margin-bottom: 20px; color: #999; padding:0;"><a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.slug}, true)|raw }}"><i class="glyphicon glyphicon-link"></i></a> posted on {{ article.date }} in <a href="{{ _helper.url('PageView', {page: 'blog', category: article.category}, true)|raw }}">{{ article.category }}</a>. <a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.slug}, true)|raw }}#comments">No comments</a>.</p>
-        </div>
-        <div class="btn-group" style=" vertical-align: top;">
-            <button type="button" style="margin-top:-3px;font-size: 14px;" class="btn btn-link btn-xs dropdown-toggle" data-toggle="dropdown">
-               <i class="glyphicon glyphicon-share"></i>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-            </ul>
-          </div>
-        {{ article.content|raw }}
+        {{ blog.display_article(article, _helper) }}
         <hr />
-        {% endfor %}
+    {% endfor %}
 {% endblock %}

@@ -2,6 +2,8 @@
 
 {% extends "layouts/main.twig" %}
 
+{% import "blog/macros.twig" as blog %}
+
 {% block contents %}
     <div class="section jumbotron">
       <div class="container">
@@ -42,7 +44,9 @@
                     </ul>
             </div>
         </div>
-        <p><a href="#">Subscribe (RSS) <i class="glyphicon glyphicon-signal"></i></a></p>
+        <p>
+                <a href="#" class="btn btn-warning">Subscribe {% if blogCategory|default(null) != null %}({{ blogCategory }}){% endif %} <i class="glyphicon glyphicon-signal"></i></a>
+        </p>
     </div>
   </div>
 </div>
