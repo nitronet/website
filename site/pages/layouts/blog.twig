@@ -5,7 +5,7 @@
 {% block contents %}
     <div class="section jumbotron">
       <div class="container">
-          <h3 style="margin:0;padding:0"><i class="glyphicon glyphicon-pencil pull-right" style="font-size: 130px; margin-top: 30px; margin-left: 70%; opacity: 0.2; position: absolute;"></i> Blog</h3>
+          <h3 style="margin:0;padding:0"><i class="glyphicon glyphicon-pencil pull-right" id="blogpencil" style="font-size: 130px; margin-top: 30px; margin-left: 0%; opacity: 0.2; position: absolute;"></i> Blog</h3>
       </div>
   </div>
 <div class="container">
@@ -47,9 +47,19 @@
   </div>
 </div>
 <script type="text/javascript">
-$('#blogTabs a').click(function (e) {
-    e.preventDefault();
-    $(this).tab('show');
+$(function() {
+    $('#blogTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+    
+    var pencilAnim = function() {
+        $('#blogpencil').animate({'margin-left': $('.container').width()-$('#blogpencil').width()-40}, 2000);
+    }
+    
+    $(window).resize(pencilAnim);
+    pencilAnim();
 });
+
 </script>
 {% endblock %}
