@@ -34,6 +34,7 @@ class ConfigUtils
                 'force'     => false
             ),
             'config'        => array(),
+            'urls'          => array(),
             'page_config'   => array(
                 'template'  => null,
                 'template_ajax'     => null,
