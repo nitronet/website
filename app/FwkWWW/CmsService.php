@@ -80,7 +80,7 @@ class CmsService extends Dispatcher
         $provider = $this->getPageProvider($pageName);
         $cfg = $provider->getConfig($pageName, $this->getSiteConfig());
         
-        $this->notify(new BeforePageEvent($pageName, $this, $provider, &$cfg, &$params));
+        $this->notify(new BeforePageEvent($pageName, $this, $provider, $cfg, $params));
         
         if ($cfg['active'] !== true) {
             throw new Exceptions\PageNotFound($pageName);

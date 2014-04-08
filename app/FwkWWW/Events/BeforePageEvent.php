@@ -10,7 +10,7 @@ class BeforePageEvent extends Event
     const EVENT_NAME = 'beforePage';
     
     public function __construct($pageName, CmsService $service, 
-        PageProvider $provider, array $config, array $params
+        PageProvider $provider, array &$config, array &$params
     ) {
         parent::__construct(self::EVENT_NAME, array(
             'pageName'  => $pageName,
