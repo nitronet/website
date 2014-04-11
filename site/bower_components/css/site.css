@@ -2,3 +2,11 @@
     margin-top: -20px;
     z-index:-900;
 }
+
+a.navbar-brand i {
+    padding: 0px;
+    margin-top: -3px;
+    vertical-align: top;
+    font-size: 20px;
+    opacity: 0.4;
+}
