@@ -10,3 +10,14 @@ a.navbar-brand i {
     font-size: 20px;
     opacity: 0.4;
 }
+
+.nav-tabs.packages {
+    margin:0;
+}
+
+.nav-tabs.packages li a i {
+    display:block;
+    text-align:center;
+    margin-bottom: 10px;
+    font-size: 22px;
+}

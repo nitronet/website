@@ -3,24 +3,25 @@
 {% extends "layouts/fwk.twig" %}
 
 {% block fwk_contents %}
+<ul class="nav nav-tabs packages" id="pkgTabs">
+    <li class="active"><a href="#"><i class="glyphicon glyphicon-cog"></i> Core</a></li>
+    <li><a href="#"><i class="glyphicon glyphicon-hdd"></i> Db</a></li>
+    <li><a href="#"><i class="glyphicon glyphicon-play-circle"></i> Di</a></li>
+    <li><a href="#"><i class="glyphicon glyphicon-sound-stereo"></i> Xml</a></li>
+    <li><a href="#"><i class="glyphicon glyphicon-list"></i> Form</a></li>
+    <li><a href="#"><i class="glyphicon glyphicon-road"></i> Cache</a></li>
+    <li><a href="#"><i class="glyphicon glyphicon-flash"></i> Events</a></li>
+</ul>
 <nav class="navbar navbar-default navbar-inverse" role="navigation">
   <div class="container-fluid">
     <!-- Collect the nav links, forms, and other content for toggling -->
       <ul class="nav navbar-nav">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong>Core</strong> <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
         <li class="active"><a href="#">Introduction</a></li>
         <li><a href="#">Download</a></li>
         <li><a href="#">Documentation</a></li>
         <li><a href="#">API</a></li>
+        <li><a href="#">Discuss <i class="glyphicon glyphicon-comment"></i></a></li>
+        <li><a href="#">Extensions</a></li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -33,4 +34,21 @@
       </ul>
   </div><!-- /.container-fluid -->
 </nav>
+    
+<section id="pkg_contents">
+    <div class="container">
+  <div class="row">
+    <div class="col-lg-9">
+        <h2 style="display:block;text-align: center;"><b>Fwk\Core</b><br /> Made to build robust Custom PHP Applications of any size.</h2>
+        <p>Fwk\Core is an <b>application framework</b>, that's it. Designed with Abstraction in mind it let you do what you want, the way you want.</p>
+    </div>
+    <div class="col-lg-3">
+        <p>
+            <a class="btn btn-primary" href="#"><i class="glyphicon glyphicon-download"></i> Download stable</a>
+            <a class="btn btn-warning" href="#"><i class="glyphicon glyphicon-download"></i> Download master</a>
+            <br /><br />
+            <a class="btn btn-default" href="#"><i class="glyphicon glyphicon-book"></i> View on Github</a>
+        </p>
+    </div>
+</section>
 {% endblock %}
