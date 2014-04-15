@@ -27,6 +27,7 @@ class PageView extends Controller implements Preparable
     public function show()
     {
         if (empty($this->page) || !$this->getCmsService()->hasPage($this->page)) {
+            var_dump($this->page);
             return Result::ERROR;
         }
         

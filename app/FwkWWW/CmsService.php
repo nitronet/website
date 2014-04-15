@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Fwk\Events\Dispatcher;
 use FwkWWW\Events\BeforePageEvent;
 use FwkWWW\Events\AfterPageEvent;
+use FwkWWW\Providers\PageProvider;
 
 class CmsService extends Dispatcher
 {

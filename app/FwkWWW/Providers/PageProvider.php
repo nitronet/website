@@ -1,5 +1,5 @@
 <?php
-namespace FwkWWW;
+namespace FwkWWW\Providers;
 
 use Fwk\Core\Context;
 

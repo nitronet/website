@@ -3,7 +3,7 @@ namespace FwkWWW\Events;
 
 use Fwk\Events\Event;
 use FwkWWW\CmsService;
-use FwkWWW\PageProvider;
+use FwkWWW\Providers\PageProvider;
 use Symfony\Component\HttpFoundation\Response;
 
 class AfterPageEvent extends Event

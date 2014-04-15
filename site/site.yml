@@ -16,26 +16,18 @@ domain:
     force: true
 config: ~
 urls:
-    "/blog/%category":
-        - page: blog
-        - parameters:
-            category:
-                query: category
-                required: false
-                default: ~
-                regex: ~
-    "/blog/%slug":
-        - page: blog/article
-        - parameters:
-            category:
-                query: slug
+    "/blog/article/:slug":
+        page: blog/article
+        parameters:
+            slug:
                 required: true
-    "/%page":
-        - page: %page
-        - parameters:
-            category:
-                query: slug
-                required: true  
+                regex: .*
+    "/:page":
+        page: :page
+        parameters:
+            page:
+                required: true
+                regex: .*
                 
 page_config:
     active: true

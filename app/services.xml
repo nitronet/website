@@ -107,7 +107,7 @@
     <!--
         CMS
     -->
-    <class-definition name="cms.twigProvider" class="FwkWWW\Providers\TwigFilesystemProvider" shared="true">
+    <class-definition name="cms.twigProvider" class="FwkWWW\Providers\Page\TwigFilesystemProvider" shared="true">
         <argument>:cms.site.path</argument>
         <argument>@twig</argument>
     </class-definition>
@@ -119,5 +119,13 @@
     <class-definition name="cms" class="FwkWWW\CmsService" shared="true">
         <argument>:packageDir/../site/site.yml</argument>
         <argument>@cms.Providers</argument>
+    </class-definition>
+    
+    <class-definition name="cms.RoutesProvider" class="FwkWWW\Providers\Routes\ConfigRoutesProvider" shared="true" />
+    
+    <class-definition name="cms.RoutesProviderListener" class="FwkWWW\Listeners\RoutesProviderListener">
+        <argument>cms.RoutesProvider</argument>
+        <argument>urlRewriter</argument>
+        <argument>cms</argument>
     </class-definition>
 </dependency-injection>

@@ -1,7 +1,7 @@
 <?php
-namespace FwkWWW\Providers;
+namespace FwkWWW\Providers\Page;
 
-use FwkWWW\PageProvider;
+use FwkWWW\Providers\PageProvider;
 use Fwk\Core\Context;
 use FwkWWW\Utils\PathUtils;
 use FwkWWW\Exceptions\PageNotFound;

@@ -3,7 +3,7 @@ namespace FwkWWW\Events;
 
 use Fwk\Events\Event;
 use FwkWWW\CmsService;
-use FwkWWW\PageProvider;
+use FwkWWW\Providers\PageProvider;
 
 class BeforePageEvent extends Event
 {
