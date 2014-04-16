@@ -35,7 +35,6 @@ class ConfigRoutesProvider implements RoutesProvider
             }
             
             $route = new Route('PageView', $uri, $parameters);
-            var_dump($route);
             $routes[] = $route;
         }
         

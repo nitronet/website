@@ -1,9 +1,26 @@
 {% block title %}Fwk - {% endblock title %}
 
+{% block headertag %}
+{% for asset in _helper.asset([
+        '+bower/trianglify/d3js.min.js',
+        '+bower/trianglify/trianglify.min.js'
+    ], null, 'trianglify') %}
+    <script type="text/javascript" src="{{ asset }}"></script>
+{% endfor %}
+    <script type="text/javascript">
+        $(function() {
+            // $('.jumbotron').geopattern($('.jumbotron').data('geopattern')); 
+            var t = new Trianglify({cellsize: 30, noiseIntensity: 0, x_gradient: colorbrewer.Set2});
+            var pattern = t.generate(document.body.clientWidth, $('.jumbotron').innerHeight());
+            $('.jumbotron').css('background-image', pattern.dataUrl);
+        });
+    </script>
+{% endblock %}
+
 {% extends "layouts/main.twig" %}
 
 {% block contents %}
-<div class="section jumbotron">
+<div class="section jumbotron" data-geopattern="Fwk\Db">
   <div class="container">
       <h3 style="margin:0;padding:0">Fwk</h3>
   </div>
