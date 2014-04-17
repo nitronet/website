@@ -57,7 +57,7 @@
     </actions>
     
     <url-rewrite>
-        <url route="/" action="PageView" />
+        <!-- <url route="/" action="PageView" /> -->
         <url route="/asset/:asset" action="Asset">
             <param name="asset" regex=".*" />
         </url>

@@ -22,8 +22,14 @@ urls:
             slug:
                 required: true
                 regex: .*
+    "/blog/:category":
+        page: blog
+        parameters:
+            category:
+                required: false
+                regex: .*
     "/:page":
-        page: :page
+        page: ~
         parameters:
             page:
                 required: true

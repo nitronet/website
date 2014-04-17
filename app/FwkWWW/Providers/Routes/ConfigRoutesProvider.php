@@ -24,13 +24,14 @@ class ConfigRoutesProvider implements RoutesProvider
             $parameters     = array(
                 new RouteParameter('page', $pageName, null, true, $pageName)
             );
-            
+
             foreach ($params as $paramName => $data) {
                 $parameters[] = new RouteParameter(
                     $paramName, 
                     (isset($data['default']) ? $data['default'] : null), 
                     (isset($data['regex']) ? $data['regex'] : null), 
-                    (isset($data['required']) ? $data['required'] : false)
+                    (isset($data['required']) ? $data['required'] : false),
+                    (isset($data['value']) ? $data['value'] : false)    
                 );
             }
             
