@@ -41,10 +41,15 @@
               <a href="{{ _helper.url('PageView', {page: 'fwk'}) }}" class=" dropdown-toggle" data-toggle="dropdown">Fwk <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="{{ _helper.url('PageView', {page: 'fwk'}) }}">Introduction</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/packages'}) }}">Packages</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/documentation'}) }}">Documentation</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/modules'}) }}">Modules</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/community'}) }}">Community</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/book'}) }}">The Book</a></li>
+                <li class="divider"></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Core'}) }}"><i class="glyphicon glyphicon-cog"></i> Core</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Db'}) }}"><i class="glyphicon glyphicon-hdd"></i> Db</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Di'}) }}"><i class="glyphicon glyphicon-play-circle"></i> Di</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Xml'}) }}"><i class="glyphicon glyphicon-sound-stereo"></i> Xml</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Form'}) }}"><i class="glyphicon glyphicon-list"></i> Form</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Cache'}) }}"><i class="glyphicon glyphicon-road"></i> Cache</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Events'}) }}"><i class="glyphicon glyphicon-flash"></i> Events</a></li>
               </ul>
             </li>
             <li class="dropdown" class="active">
@@ -64,6 +69,8 @@
     </div><!-- /navbar -->
     
     {% block contents %}{% endblock %}
+    
+    {% block footertag %}{% endblock %}
   </body>
 
 </html>

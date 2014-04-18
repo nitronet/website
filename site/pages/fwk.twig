@@ -3,6 +3,86 @@
 {% extends "layouts/fwk.twig" %}
 
 {% block fwk_contents %}
-    <h1>Packages List</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12"  style="display:block; text-align:center; margin-bottom: 20px;">
+            <h1><b>Development Happiness</b> is now available for <a href="http://www.php.net">PHP</a> !</h1>
+            <h3>Tired of editing dozens of configuration files to fit a specific framework ? Your code looks like Java and works just fine but how could it be <i>simpler</i> ? Do you really need another <a href="http://hacklang.org/">pseudo</a>-<a href="http://zephir-lang.com/">language</a> to make your app <i>efficient</i> ? Don't look any further... <b>Fwk is here</b> !</h3>
+        </div>
+    </div>
     
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Packages</h2>
+            
+            <div class="list-group">
+                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Core'}) }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">Fwk\<b>Core</b></h4>
+                    <p class="list-group-item-text">Powerful Application Framework</p>
+                </a>
+                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Db'}) }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">Fwk\<b>Db</b></h4>
+                    <p class="list-group-item-text">Database ORM</p>
+                </a>
+                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Di'}) }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">Fwk\<b>Di</b></h4>
+                    <p class="list-group-item-text">Painless Dependency Injection</p>
+                </a>
+                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Events'}) }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">Fwk\<b>Events</b></h4>
+                    <p class="list-group-item-text">Event-Oriented Programming made easy</p>
+                </a>
+                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Xml'}) }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">Fwk\<b>Xml</b></h4>
+                    <p class="list-group-item-text">Xml Mapping and Validation</p>
+                </a>
+                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Form'}) }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">Fwk\<b>Form</b></h4>
+                    <p class="list-group-item-text">Event-Oriented Programming made easy</p>
+                </a>
+                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Cache'}) }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">Fwk\<b>Cache</b></h4>
+                    <p class="list-group-item-text">Caching utility</p>
+                </a>
+            </div>
+        </div> 
+        <div class="col-md-6">
+            <h3>Features &amp; Philosophy</h3>
+            
+            <div class="list-group">
+                <a href="" class="list-group-item">
+                  <h4 class="list-group-item-heading">High Quality &amp; Standards</h4>
+                  <p class="list-group-item-text">Continous Integration, Code maintenance and readability is a key!</p>
+                </a>
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading">Light Applications are Great</h4>
+                  <p class="list-group-item-text">Use only what you need, when you need it.</p>
+                </a>
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading">Zero configuration</h4>
+                  <p class="list-group-item-text">Install the package, and rock on! No "pre-required" things.</p>
+                </a>
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading">Let the Developer decide</h4>
+                  <p class="list-group-item-text">One-file app? Enterprise-class website ? You decide.</p>
+                </a>
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading">Respect the PHP Philosophy</h4>
+                  <p class="list-group-item-text">Fwk is designed to run well using <strong>PHP and only PHP</strong>.</p>
+                </a>
+            </div>
+        </div> 
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Blog Entries</h3>
+            
+        </div> 
+        <div class="col-md-4">
+            <h3>Twitter</h3>
+            
+        </div> 
+    </div>
+</div>
 {% endblock %}
