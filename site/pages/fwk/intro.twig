@@ -1,0 +1,24 @@
+{% block title %}Package Introduction - {% endblock title %}
+
+{% extends "layouts/fwk_package.twig" %}
+
+{% set fwk_pkg_menu_active = "intro" %}
+    
+{% block fwk_pkg_contents %}
+<section id="pkg_contents">
+    <div class="container">
+  <div class="row">
+    <div class="col-lg-9">
+        <h2 style="display:block;text-align: center;"><b>Fwk\Core</b><br /> Made to build robust Custom PHP Applications of any size.</h2>
+        <p>Fwk\Core is an <b>application framework</b>, that's it. Designed with Abstraction in mind it let you do what you want, the way you want.</p>
+    </div>
+    <div class="col-lg-3">
+        <p>
+            <a class="btn btn-primary" href="#"><i class="glyphicon glyphicon-download"></i> Download stable</a>
+            <a class="btn btn-warning" href="#"><i class="glyphicon glyphicon-download"></i> Download master</a>
+            <br /><br />
+            <a class="btn btn-default" href="#"><i class="glyphicon glyphicon-book"></i> View on Github</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

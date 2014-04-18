@@ -1,0 +1,67 @@
+{% block title %}Fwk - {% endblock title %}
+
+{% block headertag %}
+{% for asset in _helper.asset([
+        '+bower/trianglify/d3js.min.js',
+        '+bower/trianglify/trianglify.min.js'
+    ], null, 'trianglify') %}
+    <script type="text/javascript" src="{{ asset }}"></script>
+{% endfor %}
+    <script type="text/javascript">
+        $(function() {
+            // $('.jumbotron').geopattern($('.jumbotron').data('geopattern')); 
+            var t = new Trianglify({cellsize: 30, noiseIntensity: 0, x_gradient: colorbrewer.Set2});
+            var pattern = t.generate(document.body.clientWidth, $('.jumbotron').innerHeight());
+            $('.jumbotron').css('background-image', pattern.dataUrl);
+        });
+    </script>
+{% endblock %}
+
+{% extends "layouts/main.twig" %}
+
+{% block contents %}
+<div class="section jumbotron" data-geopattern="Fwk\Db">
+  <div class="container">
+      <h3 style="margin:0;padding:0">Fwk{% if query.package|default(null) != null %}\<b>{{ query.package }}</b>{% endif %}</h3>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+<ul class="nav nav-tabs packages" id="pkgTabs">
+    <li{% if query.package|lower == "core" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Core'}) }}"><i class="glyphicon glyphicon-cog"></i> Core</a></li>
+    <li{% if query.package|lower == "db" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Db'}) }}"><i class="glyphicon glyphicon-hdd"></i> Db</a></li>
+    <li{% if query.package|lower == "di" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Di'}) }}"><i class="glyphicon glyphicon-play-circle"></i> Di</a></li>
+    <li{% if query.package|lower == "xml" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Xml'}) }}"><i class="glyphicon glyphicon-sound-stereo"></i> Xml</a></li>
+    <li{% if query.package|lower == "form" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Form'}) }}"><i class="glyphicon glyphicon-list"></i> Form</a></li>
+    <li{% if query.package|lower == "cache" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Cache'}) }}"><i class="glyphicon glyphicon-road"></i> Cache</a></li>
+    <li{% if query.package|lower == "events" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Events'}) }}"><i class="glyphicon glyphicon-flash"></i> Events</a></li>
+</ul>
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+      <ul class="nav navbar-nav">
+        <li{% if fwk_pkg_menu_active == "intro" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: query.package}) }}">Introduction</a></li>
+        <li><a href="#">Download</a></li>
+        <li><a href="#">Documentation</a></li>
+        <li{% if fwk_pkg_menu_active == "api" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/apidoc', package: query.package}) }}">API</a></li>
+        <li><a href="#">Discuss <i class="glyphicon glyphicon-comment"></i></a></li>
+        <li><a href="#">Extensions</a></li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">master <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">v1.2</a></li>
+          </ul>
+        </li>
+      </ul>
+  </div><!-- /.container-fluid -->
+</nav>
+    
+{% block fwk_pkg_contents %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

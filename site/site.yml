@@ -22,12 +22,24 @@ urls:
             slug:
                 required: true
                 regex: .*
-    "/blog/:category":
+    "/fwk/:package/api$":
+        page: fwk/apidoc
+        parameters:
+            package:
+                required: true
+                regex: "[a-zA-Z]+"
+    "/fwk/:package$":
+        page: fwk/intro
+        parameters:
+            package:
+                required: true
+                regex: "[a-zA-Z]+"
+    "/blog/:category$":
         page: blog
         parameters:
             category:
-                required: false
-                regex: .*
+                required: true
+                regex: ".[a-zA-Z0-9\-_\s]+"
     "/:page":
         page: ~
         parameters:
