@@ -16,7 +16,7 @@ domain:
     force: true
 config: ~
 urls:
-    "/blog/article/:slug":
+    "/blog/article/:slug$":
         page: blog/article
         parameters:
             slug:
@@ -27,26 +27,22 @@ urls:
         parameters:
             package:
                 required: true
-                regex: "[a-zA-Z]+"
     "/fwk/:package$":
         page: fwk/intro
         parameters:
             package:
                 required: true
-                regex: "[a-zA-Z]+"
-    "/blog/:category$":
+    "/blog/:category":
         page: blog
         parameters:
             category:
                 required: true
                 regex: ".[a-zA-Z0-9\-_\s]+"
-    "/:page":
-        page: ~
+    "/:page$":
         parameters:
             page:
-                required: true
+                required: false
                 regex: .*
-                
 page_config:
     active: true
     cache:
