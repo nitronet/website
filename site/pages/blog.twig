@@ -1,9 +1,9 @@
-{% block title %}Blog - {% endblock title %}
+{% set blogCategory = query.category|default(null) %}
+    
+{% block title %}{% if blogCategory != null %}{{ blogCategory }} &CenterDot; {% endif %}Blog @ Nitronet &CenterDot; Web development lab{% endblock title %}
 
 {% extends "layouts/blog.twig" %}
 
-{% set blogCategory = query.category|default(null) %}
-    
 {% block blog_contents %}
 <ol class="breadcrumb" style="margin-bottom:40px">
   <li><a href="{{ _helper.url('PageView', {page: 'blog'}, true)|raw }}">Blog</a></li>

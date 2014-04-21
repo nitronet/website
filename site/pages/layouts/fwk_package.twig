@@ -1,4 +1,6 @@
-{% block title %}Fwk - {% endblock title %}
+{% set pkg = packages.one(query.package) %}
+    
+{% block title %}{% block pkg_title %}{% endblock %} &CenterDot; {{ pkg.name }}: {{ pkg.description }} &CenterDot; Nitronet{% endblock title %}
 
 {% block headertag %}
 {% for asset in _helper.asset([
@@ -29,24 +31,20 @@
   <div class="row">
     <div class="col-lg-12 col-md-12">
 <ul class="nav nav-tabs packages" id="pkgTabs">
-    <li{% if query.package|lower == "core" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Core'}) }}"><i class="glyphicon glyphicon-cog"></i> Core</a></li>
-    <li{% if query.package|lower == "db" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Db'}) }}"><i class="glyphicon glyphicon-hdd"></i> Db</a></li>
-    <li{% if query.package|lower == "di" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Di'}) }}"><i class="glyphicon glyphicon-play-circle"></i> Di</a></li>
-    <li{% if query.package|lower == "xml" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Xml'}) }}"><i class="glyphicon glyphicon-sound-stereo"></i> Xml</a></li>
-    <li{% if query.package|lower == "form" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Form'}) }}"><i class="glyphicon glyphicon-list"></i> Form</a></li>
-    <li{% if query.package|lower == "cache" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Cache'}) }}"><i class="glyphicon glyphicon-road"></i> Cache</a></li>
-    <li{% if query.package|lower == "events" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Events'}) }}"><i class="glyphicon glyphicon-flash"></i> Events</a></li>
+    {% set packs = packages.packages() %}
+{% for id, package in packs %}
+    <li{% if query.package == id %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: id}) }}"><i class="{{ package.icon }}" title="{{ package.description }}"></i> {{ id }}</a></li>
+{% endfor %}
 </ul>
 <nav class="navbar navbar-default navbar-inverse" role="navigation">
   <div class="container-fluid">
     <!-- Collect the nav links, forms, and other content for toggling -->
       <ul class="nav navbar-nav">
         <li{% if fwk_pkg_menu_active == "intro" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: query.package}) }}">Introduction</a></li>
-        <li><a href="#">Download</a></li>
-        <li><a href="#">Documentation</a></li>
+        <li{% if fwk_pkg_menu_active == "download" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/download', package: query.package}) }}">Download</a></li>
+        <li{% if fwk_pkg_menu_active == "doc" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/doc', package: query.package}) }}">Documentation</a></li>
         <li{% if fwk_pkg_menu_active == "api" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/apidoc', package: query.package}) }}">API</a></li>
-        <li><a href="#">Discuss <i class="glyphicon glyphicon-comment"></i></a></li>
-        <li><a href="#">Extensions</a></li>
+        <li{% if fwk_pkg_menu_active == "board" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/board', package: query.package}) }}">Discuss <i class="glyphicon glyphicon-comment"></i></a></li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">

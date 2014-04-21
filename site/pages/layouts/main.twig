@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>{% block title %}{% endblock title %} Nitronet</title>
+    <title>{% block title %}{% endblock title %}</title>
     <meta name="viewport" content="width=device-width">
     {% for asset in _helper.asset([
         '+bower/bootstrap-theme-white-plum/css/bootstrap.min.css'
@@ -43,14 +43,11 @@
                 <li><a href="{{ _helper.url('PageView', {page: 'fwk'}) }}">Introduction</a></li>
                 <li><a href="{{ _helper.url('PageView', {page: 'fwk/book'}) }}">The Book</a></li>
                 <li class="divider"></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Core'}) }}"><i class="glyphicon glyphicon-cog"></i> Core</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Db'}) }}"><i class="glyphicon glyphicon-hdd"></i> Db</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Di'}) }}"><i class="glyphicon glyphicon-play-circle"></i> Di</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Xml'}) }}"><i class="glyphicon glyphicon-sound-stereo"></i> Xml</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Form'}) }}"><i class="glyphicon glyphicon-list"></i> Form</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Cache'}) }}"><i class="glyphicon glyphicon-road"></i> Cache</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Events'}) }}"><i class="glyphicon glyphicon-flash"></i> Events</a></li>
-              </ul>
+                {% set packs = packages.packages() %}
+{% for id, package in packs %}
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: id}) }}"><i class="{{ package.icon }}" title="{{ package.description }}"></i> {{ id }}</a></li>
+{% endfor %}
+            </ul>
             </li>
             <li class="dropdown" class="active">
               <a href="#" class=" dropdown-toggle" data-toggle="dropdown">OpenSource <span class="caret"></span></a>

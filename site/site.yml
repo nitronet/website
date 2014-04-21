@@ -27,6 +27,21 @@ urls:
         parameters:
             package:
                 required: true
+    "/fwk/:package/download$":
+        page: fwk/download
+        parameters:
+            package:
+                required: true
+    "/fwk/:package/doc$":
+        page: fwk/doc
+        parameters:
+            package:
+                required: true
+    "/fwk/:package/board$":
+        page: fwk/board
+        parameters:
+            package:
+                required: true
     "/fwk/:package$":
         page: fwk/intro
         parameters:
@@ -52,3 +67,9 @@ page_config:
     config: ~
     listeners: ~
     defaults: ~
+    datasources:
+        packages: 
+            class: Nitronet\FwkPackagesDataSource
+            #service: serviceName
+            constructor:
+                - /home/neiluj/www/nitronet-www/site/fwk-packages.xml

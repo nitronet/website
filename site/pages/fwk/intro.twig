@@ -1,4 +1,4 @@
-{% block title %}Package Introduction - {% endblock title %}
+{% block pkg_title %}Introduction{% endblock pkg_title %}
 
 {% extends "layouts/fwk_package.twig" %}
 
@@ -14,11 +14,12 @@
     </div>
     <div class="col-lg-3">
         <p>
-            <a class="btn btn-primary" href="#"><i class="glyphicon glyphicon-download"></i> Download stable</a>
-            <a class="btn btn-warning" href="#"><i class="glyphicon glyphicon-download"></i> Download master</a>
-            <br /><br />
-            <a class="btn btn-default" href="#"><i class="glyphicon glyphicon-book"></i> View on Github</a>
+            <a class="btn btn-primary" href="{{ _helper.url('PageView', {page: "fwk/download", package: query.package}) }}"><i class="glyphicon glyphicon-download"></i> Download</a> <a class="btn btn-default" href="#"><i class="glyphicon glyphicon-book"></i> View @ Github</a>
         </p>
+        <iframe src="//ghbtns.com/github-btn.html?user=fwk&repo={{ query.package }}&type=watch&count=true"
+  allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+        <iframe src="//ghbtns.com/github-btn.html?user=fwk&repo={{ query.package }}&type=fork&count=true"
+  allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div>
 </section>
 {% endblock %}

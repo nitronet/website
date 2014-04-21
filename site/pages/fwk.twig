@@ -1,4 +1,4 @@
-{% block title %}Introduction - {% endblock title %}
+{% block title %}Introduction to Fwk &CenterDot; Nitronet{% endblock title %}
 
 {% extends "layouts/fwk.twig" %}
 
@@ -16,34 +16,14 @@
             <h2>Packages</h2>
             
             <div class="list-group">
-                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Core'}) }}" class="list-group-item">
-                    <h4 class="list-group-item-heading">Fwk\<b>Core</b></h4>
-                    <p class="list-group-item-text">Powerful Application Framework</p>
-                </a>
-                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Db'}) }}" class="list-group-item">
-                    <h4 class="list-group-item-heading">Fwk\<b>Db</b></h4>
-                    <p class="list-group-item-text">Database ORM</p>
-                </a>
-                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Di'}) }}" class="list-group-item">
-                    <h4 class="list-group-item-heading">Fwk\<b>Di</b></h4>
-                    <p class="list-group-item-text">Painless Dependency Injection</p>
-                </a>
-                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Events'}) }}" class="list-group-item">
-                    <h4 class="list-group-item-heading">Fwk\<b>Events</b></h4>
-                    <p class="list-group-item-text">Event-Oriented Programming made easy</p>
-                </a>
-                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Xml'}) }}" class="list-group-item">
-                    <h4 class="list-group-item-heading">Fwk\<b>Xml</b></h4>
-                    <p class="list-group-item-text">Xml Mapping and Validation</p>
-                </a>
-                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Form'}) }}" class="list-group-item">
-                    <h4 class="list-group-item-heading">Fwk\<b>Form</b></h4>
-                    <p class="list-group-item-text">Event-Oriented Programming made easy</p>
-                </a>
-                <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: 'Cache'}) }}" class="list-group-item">
-                    <h4 class="list-group-item-heading">Fwk\<b>Cache</b></h4>
-                    <p class="list-group-item-text">Caching utility</p>
-                </a>
+{% set packs = packages.packages() %}
+{% for id, package in packs %}
+    <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: id}) }}" class="list-group-item">
+        <i class="{{ package.icon }} pull-right"></i>
+        <h4 class="list-group-item-heading">Fwk\<b>{{ id }}</b></h4>
+        <p class="list-group-item-text">{{ package.description }}</p>
+    </a>
+{% endfor %}
             </div>
         </div> 
         <div class="col-md-6">

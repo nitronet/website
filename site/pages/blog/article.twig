@@ -1,11 +1,17 @@
-{% block title %}Article - {% endblock title %}
+{% set list = articles.one(query.slug) %}
+{% set article = list[0]|default(null) %}
+    
+    
+{% block title %}
+{% if article == null %}
+    Article not found :( &CenterDot; Nitronet
+{% else %}
+    {{ article.title }} &CenterDot; Blog @ Nitronet &CenterDot; Web development lab
+{% endif %}
+{% endblock title %}
 
 {% extends "layouts/blog.twig" %}
 
-{% set list = articles.one(query.slug) %}
-    
-{% set article = list[0] %}
-    
 {% block blog_contents %}
 {% if article|default(null) != null %}
 <ol class="breadcrumb" style="margin-bottom:40px">
