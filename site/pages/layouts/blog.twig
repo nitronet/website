@@ -11,7 +11,7 @@
 {% import "blog/macros.twig" as blog %}
 
 {% block contents %}
-    <div class="section jumbotron" data-geopattern="Blog ">
+    <div class="section jumbotron" data-geopattern="Blog {{ blogCategory|default('') }} {{ article.title|default('') }}">
       <div class="container">
           <h3 style="margin:0;padding:0"><i class="glyphicon glyphicon-pencil pull-right" id="blogpencil" style="font-size: 130px; margin-top: 30px; margin-left: 0%; opacity: 0.2; position: absolute;"></i> Blog</h3>
       </div>
