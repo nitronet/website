@@ -2,14 +2,29 @@
 
 {% extends "layouts/fwk_package.twig" %}
 
+{% import "fwk/apidoc-macros.twig" as doc %}
+
 {% set fwk_pkg_menu_active = "api" %}
     
 {% block fwk_pkg_contents %}
 <section id="pkg_contents">
-    <div class="container">
-  <div class="row">
-    <div class="col-9">
-        <h2 style="display:block;text-align: center;"><b>API Documentation</b></h2>
+    <div class="row">
+      <div class="col-md-4">
+          {% set classes = apidoc.classes(query.package) %}
+          {{ doc.listClasses(classes, query.package, null, _helper) }}
+      </div>
+      <div class="col-md-8">
+          <h2 style="display:block;text-align: center;"><b>API Documentation</b></h2>
+      </div>  
+    </div>
+      <div class="row" style="clear:both;margin-top:30px;">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: query.package}, true)|raw }}">{{ query.package }}</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/apidoc', package: query.package}, true)|raw }}">API Doc</a></li>
+                <li class="active">{{ query.className }}</li>
+            </ol>
+        </div>
     </div>
 </section>
 {% endblock %}

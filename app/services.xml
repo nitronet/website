@@ -48,9 +48,13 @@
     </class-definition>
 
     <!-- Twig_Environment definition -->
+    <class-definition name="twigDebugExt" class="\Twig_Extension_Debug" />
     <class-definition name="twig" class="\Twig_Environment" shared="true">
         <argument>@twig.loader</argument>
         <argument>@twig.config</argument>
+        <call method="addExtension">
+            <argument>@twigDebugExt</argument>
+        </call>
     </class-definition>
     
     <!--
