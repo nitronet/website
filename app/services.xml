@@ -132,4 +132,14 @@
         <argument>urlRewriter</argument>
         <argument>cms</argument>
     </class-definition>
+    
+    <!--
+        CONSOLE
+    -->
+    <class-definition name="consoleApp" class="Symfony\Component\Console\Application" shared="true" />
+    <class-definition name="cms.CommandsListener" class="FwkWWW\Listeners\CommandsListener">
+        <argument>consoleApp</argument>
+        <argument>cms</argument>
+    </class-definition>
+    
 </dependency-injection>

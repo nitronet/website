@@ -21,6 +21,10 @@
         <param>:sessionService</param>
     </listener>
     <listener service="cms.RoutesProviderListener" />
+    <listener service="cms.CommandsListener" />
+    <listener class="Fwk\Core\Components\ConsoleListener">
+        <param>consoleApp</param>
+    </listener>
     
     <result-types>
         <result-type
