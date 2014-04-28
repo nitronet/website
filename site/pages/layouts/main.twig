@@ -67,6 +67,24 @@
     
     {% block contents %}{% endblock %}
     
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <h4><a class="" href="{{ _helper.url('PageView') }}">Nitronet <i class="glyphicon glyphicon-fire"></i></a></h4>
+                </div>
+          <div class="col-md-6">
+                   <ul class="list-unstyled list-inline">
+            <li class="dropdown">
+              <a href="{{ _helper.url('PageView', {page: 'fwk'}) }}">Fwk</a>
+            </li>
+            <li><a href="{{ _helper.url('PageView', {page: 'blog'}) }}">Blog</a></li>
+            <li><a href="{{ _helper.url('PageView', {page: 'about'}) }}">About</a></li>
+          </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 {% block footertag %}{% endblock %}
   </body>
 
