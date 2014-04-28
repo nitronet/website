@@ -10,8 +10,8 @@
   </head>
   
   <body>
-      <div id="pjax-container">
-<h3>{% if class.abstract == 'true' %}Abstract {% endif %}{% if class.final == 'true' %}Final {% endif %}{% if query.type == 'class' %}Class{% else %}Interface{% endif %} <a href="{{ doc.link(query.className, query.type, query.package, _helper) }}">{{ query.className|replace('/', '\\') }}</a></h3>
+      <div id="pjax-container" data-pjax>
+<h3>{% if class.abstract == 'true' %}Abstract {% endif %}{% if class.final == 'true' %}Final {% endif %}{% if query.type == 'class' %}Class{% else %}Interface{% endif %} <a href="{{ doc.link(query.className, query.type, query.package, _helper) }}" id="apiClass">{{ query.className|replace('/', '\\') }}</a></h3>
 {% if class.extends != null %}<h4>&nbsp; &nbsp; &nbsp; &rBarr; extends <a href="{{ doc.link(class.extends, "class", query.package, _helper) }}">{{ class.extends }}</a></h4>{% endif %}
 {% for interface in class.implements %}
     <h4>&nbsp; &nbsp; &nbsp; {% if loop.first %} &rBarr; implements{% else %}&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;{% endif %} <a href="{{ doc.link(interface, "interface", query.package, _helper) }}">{{ interface }}</a></h4>
@@ -67,6 +67,23 @@
     {% endfor %}
 </ul>
 {% endif %}
+<script type="text/javascript">
+        $(function() {
+            var updateMenuActive = function() {
+                var myElt = $('#apiClass').text();
+                $("ul.classes li.active").removeClass('active');
+                var itms = $("ul.classes li a:contains("+ myElt +")").filter(function()
+                      {
+                        return $(this).text() === myElt;
+                      }
+                );
+                itms.parent().addClass('active');
+                $('ol#apiNav li.active').html(myElt);
+            };
+            
+            updateMenuActive();
+        });
+</script>
       </div>
   </body>
 </html>

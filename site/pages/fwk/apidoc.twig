@@ -37,16 +37,16 @@
               </div>
           </div>
       </div>
-      <div class="col-md-8" id="pjax-container">
+      <div class="col-md-8" id="pjax-container" data-pjax>
           <h2 style="display:block;text-align: center;"><b>API Documentation</b></h2>
       </div>  
     </div>
       <div class="row" style="clear:both;margin-top:30px;">
         <div class="col-md-12">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb" id="apiNav">
                 <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: query.package}, true)|raw }}">{{ query.package }}</a></li>
                 <li><a href="{{ _helper.url('PageView', {page: 'fwk/apidoc', package: query.package}, true)|raw }}">API Doc</a></li>
-                <li class="active">{{ query.className }}</li>
+                <li class="active"></li>
             </ol>
         </div>
     </div>
@@ -60,22 +60,22 @@ $(function() {
 
     $(document).pjax('[data-pjax] a, a[data-pjax]', '#pjax-container', { fragment: '#pjax-container' });
     
-    $(document).on('pjax:send', function() {
-    console.log('pjax:send');
-});
-$(document).on('pjax:complete', function() {
-    console.log('pjax:complete');
-});
-$(document).on('pjax:success', function() {
-    console.log('pjax:success');
-});
-$(document).on('pjax:error', function(event, err) {
-    console.log(err, event)
-    console.log('pjax:error');
-});
-$(document).on('pjax:timeout', function() {
-    console.log('pjax:timeout');
-});
+     var updateMenuActive = function() {
+        var myElt = $('#apiClass').text();
+        $("ul.classes li.active").removeClass('active');
+        var itms = $("ul.classes li a:contains("+ myElt +")").filter(function()
+              {
+                return $(this).text() === myElt;
+              }
+        );
+        itms.parent().addClass('active');
+        $('ol#apiNav li.active').html(myElt);
+    };
+            
+    // Revert to a previously saved state
+    window.addEventListener('popstate', function(event) {
+       updateMenuActive();
+    });
 });
 </script>
 {% endblock %}

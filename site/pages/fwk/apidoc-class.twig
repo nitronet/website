@@ -8,11 +8,19 @@
 {% set classes = apidoc.classes(query.package) %}
 {% set class = apidoc.doc(query.className, query.type) %}    
 
+{% block headertag %}
+{% for asset in _helper.asset([
+        '+bower/jquery-pjax/jquery-pjax.js',
+    ], null, 'pjax') %}
+    <script type="text/javascript" src="{{ asset }}"></script>
+{% endfor %}
+{% endblock %}
+    
 {% block fwk_pkg_contents %}
 <section id="pkg_contents">
     {# <pre>{{ dump(class) }}</pre> #}
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-4"  data-pjax>
             {% set classes = apidoc.classes(query.package) %}
             {% set interfaces = apidoc.interfaces(query.package) %}
             <ul class="nav nav-tabs" id="docTabs" style="margin: 20px 0 0 0">
@@ -32,8 +40,8 @@
                 </div>
             </div>
         </div>
-          <div class="col-md-8" id="pjax-container">
-              <h3>{% if class.abstract == 'true' %}Abstract {% endif %}{% if class.final == 'true' %}Final {% endif %}{% if query.type == 'class' %}Class{% else %}Interface{% endif %} <a href="{{ doc.link(query.className, query.type, query.package, _helper) }}">{{ query.className|replace('/', '\\') }}</a></h3>
+          <div class="col-md-8" id="pjax-container" data-pjax>
+              <h3>{% if class.abstract == 'true' %}Abstract {% endif %}{% if class.final == 'true' %}Final {% endif %}{% if query.type == 'class' %}Class{% else %}Interface{% endif %} <a href="{{ doc.link(query.className, query.type, query.package, _helper) }}" id="apiClass">{{ query.className|replace('/', '\\') }}</a></h3>
               {% if class.extends != null %}<h4>&nbsp; &nbsp; &nbsp; &rBarr; extends <a href="{{ doc.link(class.extends, "class", query.package, _helper) }}">{{ class.extends }}</a></h4>{% endif %}
               {% for interface in class.implements %}
                   <h4>&nbsp; &nbsp; &nbsp; {% if loop.first %} &rBarr; implements{% else %}&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;{% endif %} <a href="{{ doc.link(interface, "interface", query.package, _helper) }}">{{ interface }}</a></h4>
@@ -93,7 +101,7 @@
         </div>
     <div class="row" style="clear:both;margin-top:30px;">
         <div class="col-md-12">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb" id="apiNav">
                 <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: query.package}, true)|raw }}">{{ query.package }}</a></li>
                 <li><a href="{{ _helper.url('PageView', {page: 'fwk/apidoc', package: query.package}, true)|raw }}">API Doc</a></li>
                 <li class="active">{{ query.className }}</li>
@@ -108,7 +116,24 @@ $(function() {
         $(this).tab('show');
     });
     
-    $('#docTabs a.active').click();
+    $(document).pjax('[data-pjax] a, a[data-pjax]', '#pjax-container', { fragment: '#pjax-container' });
+    
+     var updateMenuActive = function() {
+        var myElt = $('#apiClass').text();
+        $("ul.classes li.active").removeClass('active');
+        var itms = $("ul.classes li a:contains("+ myElt +")").filter(function()
+              {
+                return $(this).text() === myElt;
+              }
+        );
+        itms.parent().addClass('active');
+        $('ol#apiNav li.active').html(myElt);
+    };
+    
+    // Revert to a previously saved state
+    window.addEventListener('popstate', function() {
+       updateMenuActive();
+    });
 });
 </script>
 {% endblock %}

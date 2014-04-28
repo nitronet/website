@@ -3,7 +3,7 @@
 {% endmacro %}
 
 {% macro listClasses(classes, type, package, active, _helper) %}
-<ul class="nav nav-pills nav-stacked" style="font-size: 12px;max-height: 500px; overflow-y: auto;">
+<ul class="nav nav-pills nav-stacked classes" style="font-size: 12px;max-height: 500px; overflow-y: auto;">
     {% for className, infos in classes %}
         <li{% if active == className|trim('\\')|replace({'\\': '/'}) %} class="active"{% endif %}><a href="{{ _self.link(className, type, package, _helper) }}">{{ className|trim('\\') }}</a></li>
     {% endfor %}
