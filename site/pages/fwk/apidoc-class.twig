@@ -24,8 +24,8 @@
 <div class="row">
     <div class="col-md-4" data-pjax>
         <ul class="nav nav-tabs" id="docTabs" style="margin: 20px 0 0 0">
-            <li{% if query.type == 'class' %} class="active"{% endif %}><a href="#classes">Classes ({{ classes|length }})</a></li>
-            <li{% if query.type == 'interface' %} class="active"{% endif %}><a href="#interfaces">Interfaces ({{ interfaces|length }})</a></li>
+            <li{% if query.type == 'class' %} class="active"{% endif %}><a href="#classes" id="classTab">Classes ({{ classes|length }})</a></li>
+            <li{% if query.type == 'interface' %} class="active"{% endif %}><a href="#interfaces" id="interfaceTab">Interfaces ({{ interfaces|length }})</a></li>
         </ul>
         <div id="myTabContent" class="tab-content">
             <div id="classes" class="tab-pane{% if query.type == 'class' %} active in{% endif %}">
@@ -69,6 +69,7 @@ $(function() {
         );
         itms.parent().addClass('active');
         $('ol#apiNav li.active').html(myElt);
+        $('#'+ $('#apiType').text().toLowerCase() + 'Tab').tab('show');
     };
     
     // Revert to a previously saved state

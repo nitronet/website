@@ -18,13 +18,11 @@
 
 {% macro classDoc(className, apidoc, type, package, _helper) %}
 {% set class = apidoc.doc(className, type) %}
-{% spaceless %}
 <h3>{% if class.abstract == 'true' %}Abstract {% endif %}
     {% if class.final == 'true' %}Final {% endif %}
-    {% if query.type == 'class' %}Class{% else %}Interface{% endif %} 
+    {% if type == 'class' %}<span id="apiType">Class</span> {% else %}<span id="apiType">Interface</span> {% endif %} 
     <a href="{{ _self.link(className, type, package, _helper) }}" id="apiClass">{{ className|replace('/', '\\') }}</a>
 </h3>
-{% endspaceless %}
 {% if class.extends != null %}<h4>&nbsp; &nbsp; &nbsp; &rBarr; extends <a href="{{ _self.link(class.extends, type, package, _helper) }}">{{ class.extends }}</a></h4>{% endif %}
 {% for interface in class.implements %}
     <h4>&nbsp; &nbsp; &nbsp; {% if loop.first %} &rBarr; implements{% else %}&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;{% endif %} <a href="{{ _self.link(interface, "interface", package, _helper) }}">{{ interface }}</a></h4>

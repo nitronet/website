@@ -24,6 +24,7 @@
                 );
                 itms.parent().addClass('active');
                 $('ol#apiNav li.active').html(myElt);
+                $('#'+ $('#apiType').text().toLowerCase() + 'Tab').tab('show');
             };
             
             updateMenuActive();

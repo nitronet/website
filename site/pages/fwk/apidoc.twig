@@ -21,12 +21,8 @@
           {% set classes = apidoc.classes(query.package) %}
           {% set interfaces = apidoc.interfaces(query.package) %}
           <ul class="nav nav-tabs" id="docTabs" style="margin: 20px 0 0 0">
-            <li class="active">
-              <a href="#classes">Classes ({{ classes|length }})</a>
-            </li>
-            <li>
-              <a href="#interfaces">Interfaces ({{ interfaces|length }})</a>
-            </li>
+            <li class="active"><a href="#classes" id="classTab">Classes ({{ classes|length }})</a></li>
+            <li><a href="#interfaces" id="interfaceTab">Interfaces ({{ interfaces|length }})</a></li>
           </ul>
           <div id="myTabContent" class="tab-content">
               <div id="classes" class="tab-pane fade active in">
