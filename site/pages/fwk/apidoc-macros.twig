@@ -1,12 +1,11 @@
-{% macro link(className, package, _helper) %}
-{{ _helper.url("PageView", {page: "fwk/apidoc-class", package: package, className: className|trim('\\')|replace({'\\': '/'})}, true)|raw }}
+{% macro link(className, type, package, _helper) %}
+{{ _helper.url("PageView", {page: "fwk/apidoc-class", package: package, type: type, className: className|trim('\\')|replace({'\\': '/'})}, true)|raw }}
 {% endmacro %}
 
-{% macro listClasses(classes, package, active, _helper) %}
-<h3>Classes ({{ classes|length }}) </h3>
+{% macro listClasses(classes, type, package, active, _helper) %}
 <ul class="nav nav-pills nav-stacked" style="font-size: 12px;max-height: 500px; overflow-y: auto;">
     {% for className, infos in classes %}
-        <li{% if active == className|trim('\\')|replace({'\\': '/'}) %} class="active"{% endif %}><a href="{{ _self.link(className, package, _helper) }}">{{ className|trim('\\') }}</a></li>
+        <li{% if active == className|trim('\\')|replace({'\\': '/'}) %} class="active"{% endif %}><a href="{{ _self.link(className, type, package, _helper) }}">{{ className|trim('\\') }}</a></li>
     {% endfor %}
 </ul>
 {% endmacro %}

@@ -109,9 +109,9 @@ class TwigFilesystemProvider implements PageProvider
         
         // widget
         if ($context->hasParent()) {
-            $tpl = ($cfg['template_widget'] != null ? $cfg['template_widget'] : $pageName . self::PAGES_EXTENSION);
+            $tpl = ($cfg['template_widget'] != null ? $cfg['template_widget'] . self::PAGES_EXTENSION : $pageName . self::PAGES_EXTENSION);
         } elseif ($context->getRequest()->isXmlHttpRequest()) {
-            $tpl = ($cfg['template_ajax'] != null ? $cfg['template_ajax'] : $pageName . self::PAGES_EXTENSION);
+            $tpl = ($cfg['template_ajax'] != null ? $cfg['template_ajax'] . self::PAGES_EXTENSION : $pageName . self::PAGES_EXTENSION);
         } else {
             $tpl = $pageName . self::PAGES_EXTENSION;
         }

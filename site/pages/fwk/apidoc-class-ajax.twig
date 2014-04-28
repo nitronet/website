@@ -1,0 +1,72 @@
+{% set pkg = packages.one(query.package) %}
+{% set class = apidoc.doc(query.className, query.type) %}    
+
+{% import "fwk/apidoc-macros.twig" as doc %}
+
+<!doctype html>
+<html>
+  <head>
+    <title>API &raquo; {{ query.className|replace('/', '\\') }} &CenterDot; {{ pkg.name }}: {{ pkg.description }} &CenterDot; Nitronet</title>
+  </head>
+  
+  <body>
+      <div id="pjax-container">
+<h3>{% if class.abstract == 'true' %}Abstract {% endif %}{% if class.final == 'true' %}Final {% endif %}{% if query.type == 'class' %}Class{% else %}Interface{% endif %} <a href="{{ doc.link(query.className, query.type, query.package, _helper) }}">{{ query.className|replace('/', '\\') }}</a></h3>
+{% if class.extends != null %}<h4>&nbsp; &nbsp; &nbsp; &rBarr; extends <a href="{{ doc.link(class.extends, "class", query.package, _helper) }}">{{ class.extends }}</a></h4>{% endif %}
+{% for interface in class.implements %}
+    <h4>&nbsp; &nbsp; &nbsp; {% if loop.first %} &rBarr; implements{% else %}&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;{% endif %} <a href="{{ doc.link(interface, "interface", query.package, _helper) }}">{{ interface }}</a></h4>
+{% endfor %}
+<hr />
+{{ doc.docblock(class.docblock, _helper) }}
+              
+{% if class.methods|length %}
+<h4 style="margin-top: 40px;"><a name="methods"></a>Methods</h4>
+
+{% for method, infos in class.methods %} 
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default" style="border-top:none;">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <i>{{ infos.visibility }}</i>
+        {% if infos.docblock.tags['return'] is defined %}<span class="pull-right">{{ infos.docblock.tags['return'].type }}</span>{% endif %}
+        <a data-toggle="collapse" data-parent="mthd{{ method }}" href="#mthd{{ method }}">
+            <strong>{% if infos.static == 'true' %}{{ class.name }}::{% endif %}{{ method }}</strong>
+        </a>
+        ({% for argument in infos.arguments %}{% if argument.type != null %}{{argument.type}} {% endif %}<u>{{ argument.name }}</u>{% if argument.default != null %} = {{argument.default}}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %})
+      </h4>
+    </div>
+    <div id="mthd{{ method }}" class="panel-collapse collapse">
+      <div class="panel-body">
+          {{ doc.docblock(infos.docblock, _helper) }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endif %}
+
+{% if class.properties|length %}
+<h4 style="margin-top: 40px;"><a name="properties"></a>Properties</h4>
+<ul class="properties list-unstyled">
+    {% for property, infos in class.properties %}
+        <li>
+            <i>{{ infos.visibility }}</i> {% if infos.docblock.tags['var'] is defined %}<span class="pull-right">{{ infos.docblock.tags['var'].type }}</span>{% endif %} <strong>{% if infos.static == 'true' %}{{ class.name }}::{% endif %}{{ property }}</strong> {{ doc.docblock(infos.docblock, _helper) }}
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if class.constants|length %}
+<h4 style="margin-top: 40px;"><a name="constants"></a>Constants</h4>
+<ul class="constants list-unstyled">
+    {% for name, infos in class.constants %}
+        <li>
+            <code>{{ class.name }}::{{ name }}</code> = {{ infos.value|trim('\'"') }} {{ doc.docblock(infos.docblock, _helper) }}
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+      </div>
+  </body>
+</html>

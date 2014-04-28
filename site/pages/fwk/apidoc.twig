@@ -6,14 +6,38 @@
 
 {% set fwk_pkg_menu_active = "api" %}
     
+{% block headertag %}
+{% for asset in _helper.asset([
+        '+bower/jquery-pjax/jquery-pjax.js',
+    ], null, 'pjax') %}
+    <script type="text/javascript" src="{{ asset }}"></script>
+{% endfor %}
+{% endblock %}
+
 {% block fwk_pkg_contents %}
 <section id="pkg_contents">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4" data-pjax>
           {% set classes = apidoc.classes(query.package) %}
-          {{ doc.listClasses(classes, query.package, null, _helper) }}
+          {% set interfaces = apidoc.interfaces(query.package) %}
+          <ul class="nav nav-tabs" id="docTabs" style="margin: 20px 0 0 0">
+            <li class="active">
+              <a href="#classes">Classes ({{ classes|length }})</a>
+            </li>
+            <li>
+              <a href="#interfaces">Interfaces ({{ interfaces|length }})</a>
+            </li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+              <div id="classes" class="tab-pane fade active in">
+                  {{ doc.listClasses(classes, "class", query.package, null, _helper) }}
+              </div>
+              <div id="interfaces" class="tab-pane">
+                  {{ doc.listClasses(interfaces, "interface", query.package, null, _helper) }}
+              </div>
+          </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8" id="pjax-container">
           <h2 style="display:block;text-align: center;"><b>API Documentation</b></h2>
       </div>  
     </div>
@@ -27,4 +51,31 @@
         </div>
     </div>
 </section>
+<script type="text/javascript">
+$(function() {
+    $('#docTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    $(document).pjax('[data-pjax] a, a[data-pjax]', '#pjax-container', { fragment: '#pjax-container' });
+    
+    $(document).on('pjax:send', function() {
+    console.log('pjax:send');
+});
+$(document).on('pjax:complete', function() {
+    console.log('pjax:complete');
+});
+$(document).on('pjax:success', function() {
+    console.log('pjax:success');
+});
+$(document).on('pjax:error', function(event, err) {
+    console.log(err, event)
+    console.log('pjax:error');
+});
+$(document).on('pjax:timeout', function() {
+    console.log('pjax:timeout');
+});
+});
+</script>
 {% endblock %}

@@ -27,11 +27,14 @@ urls:
         parameters:
             package:
                 required: true
-    "/fwk/:package/api/:className.html$":
+    "/fwk/:package/api/:type/:className.html$":
         page: fwk/apidoc-class
         parameters:
             package:
                 required: true
+            type:
+                required: true
+                regex: class|interface
             className:
                 required: true
                 regex: .*

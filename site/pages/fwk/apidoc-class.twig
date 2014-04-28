@@ -6,20 +6,37 @@
 
 {% set fwk_pkg_menu_active = "api" %}
 {% set classes = apidoc.classes(query.package) %}
-{% set class = apidoc.classDoc(query.className) %}    
+{% set class = apidoc.doc(query.className, query.type) %}    
 
 {% block fwk_pkg_contents %}
 <section id="pkg_contents">
     {# <pre>{{ dump(class) }}</pre> #}
         <div class="row">
           <div class="col-md-4">
-              {{ doc.listClasses(classes, query.package, query.className, _helper) }}
-          </div>
-          <div class="col-md-8">
-              <h3>{% if class.abstract == 'true' %}Abstract {% endif %}{% if class.final == 'true' %}Final {% endif %}Class <a href="{{ doc.link(query.className, query.package, _helper) }}">{{ query.className }}</a></h3>
-              {% if class.extends != null %}<h4>&nbsp; &nbsp; &nbsp; &rBarr; extends <a href="{{ doc.link(class.extends, query.package, _helper) }}">{{ class.extends }}</a></h4>{% endif %}
+            {% set classes = apidoc.classes(query.package) %}
+            {% set interfaces = apidoc.interfaces(query.package) %}
+            <ul class="nav nav-tabs" id="docTabs" style="margin: 20px 0 0 0">
+              <li{% if query.type == 'class' %} class="active"{% endif %}>
+                <a href="#classes">Classes ({{ classes|length }})</a>
+              </li>
+              <li{% if query.type == 'interface' %} class="active"{% endif %}>
+                <a href="#interfaces">Interfaces ({{ interfaces|length }})</a>
+              </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div id="classes" class="tab-pane{% if query.type == 'class' %} active in{% endif %}">
+                    {{ doc.listClasses(classes, "class", query.package, query.className, _helper) }}
+                </div>
+                <div id="interfaces" class="tab-pane{% if query.type == 'interface' %} active in{% endif %}">
+                    {{ doc.listClasses(interfaces, "interface", query.package, query.className, _helper) }}
+                </div>
+            </div>
+        </div>
+          <div class="col-md-8" id="pjax-container">
+              <h3>{% if class.abstract == 'true' %}Abstract {% endif %}{% if class.final == 'true' %}Final {% endif %}{% if query.type == 'class' %}Class{% else %}Interface{% endif %} <a href="{{ doc.link(query.className, query.type, query.package, _helper) }}">{{ query.className|replace('/', '\\') }}</a></h3>
+              {% if class.extends != null %}<h4>&nbsp; &nbsp; &nbsp; &rBarr; extends <a href="{{ doc.link(class.extends, "class", query.package, _helper) }}">{{ class.extends }}</a></h4>{% endif %}
               {% for interface in class.implements %}
-                  <h4>&nbsp; &nbsp; &nbsp; {% if loop.first %} &rBarr; implements{% else %}&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;{% endif %} <a href="{{ doc.link(interface, query.package, _helper) }}">{{ interface }}</a></h4>
+                  <h4>&nbsp; &nbsp; &nbsp; {% if loop.first %} &rBarr; implements{% else %}&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;{% endif %} <a href="{{ doc.link(interface, "interface", query.package, _helper) }}">{{ interface }}</a></h4>
               {% endfor %}
               <hr />
               {{ doc.docblock(class.docblock, _helper) }}
@@ -84,4 +101,14 @@
         </div>
     </div>
 </section>
+<script type="text/javascript">
+$(function() {
+    $('#docTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+    
+    $('#docTabs a.active').click();
+});
+</script>
 {% endblock %}

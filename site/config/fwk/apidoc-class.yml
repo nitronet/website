@@ -1,3 +1,4 @@
+template_ajax: fwk/apidoc-class-ajax
 datasources:
         apidoc: 
             class: Nitronet\FwkApiDocDataSource

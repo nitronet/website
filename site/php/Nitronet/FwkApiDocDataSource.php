@@ -11,23 +11,25 @@ class FwkApiDocDataSource implements DataSource
     protected $xmlPath;
     
     protected $classes;
+    protected $interfaces;
     
     public function __construct($xmlPath)
     {
         $this->xmlPath = $xmlPath;
     }
     
-    public function classDoc($className)
+    public function doc($className, $type)
     {
         $this->load();
         
         $key = '\\' . str_replace('/', '\\', $className);
+        $ref = ($type == "class" ? $this->classes : $this->interfaces);
         
-        if (!isset($this->classes[$key])) {
-            throw new \InvalidArgumentException('unknown class: '. $className);
+        if (!isset($ref[$key])) {
+            throw new \InvalidArgumentException('unknown '. $type .': '. $className);
         }
         
-        return $this->classes[$key];
+        return $ref[$key];
     }
     
     public function classes($package)
@@ -35,6 +37,13 @@ class FwkApiDocDataSource implements DataSource
         $this->load();
         
         return $this->classes;
+    }
+    
+    public function interfaces($package)
+    {
+        $this->load();
+        
+        return $this->interfaces;
     }
     
     protected function load()
@@ -50,6 +59,12 @@ class FwkApiDocDataSource implements DataSource
         foreach ($res['classes'] as &$data) {
             ksort($data['methods'], SORT_NATURAL);
         }
+        
+        ksort($res['interfaces'], SORT_NATURAL | SORT_FLAG_CASE);
+        foreach ($res['interfaces'] as &$data) {
+            ksort($data['methods'], SORT_NATURAL);
+        }
+        $this->interfaces = $res['interfaces'];
         $this->classes = $res['classes'];
     }
     
@@ -83,6 +98,38 @@ class FwkApiDocDataSource implements DataSource
                     ->attribute('static')
                     ->addChildren(Path::factory('full_name', 'full_name'))
                     ->addChildren(Path::factory('default', 'default'))
+                    ->addChildren(self::docBlockPathFactory())
+                )
+                ->addChildren(
+                    Path::factory('method', 'methods', array())
+                    ->loop(true, 'name')
+                    ->attribute('final')
+                    ->attribute('abstract')
+                    ->attribute('visibility')
+                    ->attribute('static')
+                    ->addChildren(
+                        Path::factory('argument', 'arguments', array())
+                        ->loop(true)
+                        ->addChildren(Path::factory('name', 'name'))
+                        ->addChildren(Path::factory('default', 'default'))
+                        ->addChildren(Path::factory('type', 'type'))
+                    )
+                    ->addChildren(self::docBlockPathFactory())
+                )
+        );
+        
+        $map->add(
+            Path::factory('/project/file/interface', 'interfaces', array())
+                ->loop(true, 'full_name')
+                ->attribute('final')
+                ->addChildren(Path::factory('name', 'name'))
+                ->addChildren(Path::factory('extends', 'extends', null))
+                ->addChildren(self::docBlockPathFactory())
+                ->addChildren(
+                    Path::factory('constant', 'constants', array())
+                    ->loop(true, 'name')
+                    ->addChildren(Path::factory('full_name', 'full_name'))
+                    ->addChildren(Path::factory('value', 'value'))
                     ->addChildren(self::docBlockPathFactory())
                 )
                 ->addChildren(
