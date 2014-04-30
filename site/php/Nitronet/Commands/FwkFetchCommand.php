@@ -5,9 +5,13 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Fwk\Core\ServicesAware;
+use Fwk\Di\Container;
 
-class FwkFetchCommand extends Command
+class FwkFetchCommand extends Command implements ServicesAware
 {
+    protected $services;
+    
     protected function configure()
     {
         $this->setDescription('Fetches Fwk Package(s) and build documenation');
@@ -26,5 +30,19 @@ class FwkFetchCommand extends Command
         if (null !== $pkgs) {
             $pkgs = (strpos($pkgs, ',') > 0 ? explode(',', $pkgs) : array($pkgs));
         }
+    }
+    
+    /**
+     * 
+     * @return Container
+     */
+    public function getServices()
+    {
+        return $this->services;
+    }
+
+    public function setServices(Container $container)
+    {
+        $this->services = $container;
     }
 }
