@@ -16,3 +16,5 @@ assetic.cache.directory = :packageDir/../cache
 ; could be content or modification 
 assetic.cache.strategy = content
 cms.site.path = :packageDir/../site
+fwk.build.dir = :packageDir/../fwk-build
+phpdoc.bin = :packageDir/../phpDoc.phar

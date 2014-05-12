@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Fwk\Core\ServicesAware;
 use Fwk\Di\Container;
+use Symfony\Component\Process\Process;
 
 class FwkFetchCommand extends Command implements ServicesAware
 {
@@ -45,20 +46,92 @@ class FwkFetchCommand extends Command implements ServicesAware
 
         if (!is_dir($buildDir)) {
             if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
-                $output->write('Directory '. $buildDir .' not found. Creating...', true);
+                $output->writeln('Directory '. $buildDir .' not found. Creating...', true);
             }
-            mkdir($buildDir);
+            if (!mkdir($buildDir)) {
+                throw new \Exception('Unable to make build directory: '. $buildDir);
+            }
         }
 
+        $phpDocBin = $this->getServices()->getProperty('phpdoc.bin');
         foreach ($all as $pkgName => $data) {
-            if ($pkgs !== false && in_array($pkgName, $pkgs)) {
+            if ($pkgs !== false && !in_array($pkgName, $pkgs)) {
                 if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
-                    $output->write('Skipping '. $pkgName .'.', true);
+                    $output->writeln('Skipping '. $pkgName .'.', true);
                 }
                 continue;
             }
-            $output->write('Fetching informations about <info>'. $pkgName .'</info> ...', true);
+            $output->writeln('Building package <info>'. $pkgName .'</info> ...', true);
+            $this->fetchOrUpdatePackage($pkgName, $data, $buildDir, $output);
+            $this->buildApiDoc($pkgName, $data, $buildDir, $phpDocBin, $output);
+            $this->buildDocumentation($pkgName, $data, $buildDir, $output);
         }
+    }
+
+    protected function buildDocumentation($pkg, $data, $buildDir, OutputInterface $output)
+    {
+        if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
+            $output->writeln('- Building Documentation ...');
+        }
+
+
+    }
+
+    protected function buildApiDoc($pkg, $data, $buildDir, $phpDocBin, OutputInterface $output)
+    {
+        if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
+            $output->writeln('- Building API documentation ...');
+        }
+
+        $proc = $this->proc(sprintf('%s -d . -t ./build/apidoc --template="xml" --ignore="*vendor*,*docs*,*Tests*"', $phpDocBin), $buildDir . DIRECTORY_SEPARATOR . $pkg, $output, 200);
+        if (!$proc->isSuccessful()) {
+            throw new \Exception('Unable to build API documentation: '. $proc->getErrorOutput());
+        }
+    }
+
+    protected function fetchOrUpdatePackage($pkg, $data, $buildDir, OutputInterface $output)
+    {
+        if (!is_dir($buildDir . DIRECTORY_SEPARATOR . $pkg)) {
+            if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
+                $output->writeln('- Package previous installation not found. Cloning repository ...');
+            }
+            $proc = $this->proc('git clone '. $data['repository'], $buildDir, $output);
+            if (!$proc->isSuccessful()) {
+                throw new \Exception('Unable to clone package repository: '. $pkg .'/'. $data['repository'] .': '. $proc->getErrorOutput());
+            }
+        } else {
+            if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
+                $output->writeln('- Previous installation found. Updating ...');
+            }
+            $proc = $this->proc('git pull -u origin master -ff', $buildDir . DIRECTORY_SEPARATOR . $pkg, $output);
+            if (!$proc->isSuccessful()) {
+                throw new \Exception('Unable to update package repository: '. $pkg .'/'. $data['repository'] .': '. $proc->getErrorOutput());
+            }
+        }
+    }
+
+    /**
+     * @param $cmd
+     * @param $cwd
+     * @param OutputInterface $output
+     * @param int $timeout
+     * @return Process
+     */
+    private function proc($cmd, $cwd, OutputInterface $output, $timeout = 60)
+    {
+        $proc = new Process($cmd, $cwd);
+        if (null !== $timeout) {
+            $proc->setTimeout($timeout);
+        }
+        $proc->run(function ($type, $buffer) use ($output) {
+            if ('err' === $type) {
+                $output->write('<error>ERROR</error>: '. $buffer);
+            } elseif ($output->getVerbosity() === OutputInterface::VERBOSITY_VERY_VERBOSE) {
+                $output->write('<info>INFO</info>: '. $buffer);
+            }
+        });
+
+        return $proc;
     }
 
     /**
