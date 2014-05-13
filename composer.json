@@ -1,5 +1,6 @@
 {
     "name": "fwk/website",
+    "description": "Nitronet.org Website",
     "license": "mit",
     "authors": [
         {
@@ -22,7 +23,9 @@
         "monolog/monolog": "dev-master",
         "nitronet/fwk-twig": "dev-master",
         "nitronet/fwk-assetic": "dev-master",
-        "symfony/yaml": "dev-master"
+        "symfony/yaml": "dev-master",
+        "symfony/finder": "dev-master",
+        "michelf/php-markdown": "1.4.*@dev"
     },
     "require-dev": {
         "filp/whoops": "dev-master"

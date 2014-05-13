@@ -8,6 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Fwk\Core\ServicesAware;
 use Fwk\Di\Container;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Finder\Finder;
+use Michelf\MarkdownExtra;
 
 class FwkFetchCommand extends Command implements ServicesAware
 {
@@ -62,28 +64,78 @@ class FwkFetchCommand extends Command implements ServicesAware
                 continue;
             }
             $output->writeln('Building package <info>'. $pkgName .'</info> ...', true);
+            $versions = $data['versions'];
+            if (strpos($versions, ',') !== false) {
+                $versions = explode(',', $versions);
+            } else {
+                $versions = array($versions);
+            }
+            
             $this->fetchOrUpdatePackage($pkgName, $data, $buildDir, $output);
-            $this->buildApiDoc($pkgName, $data, $buildDir, $phpDocBin, $output);
-            $this->buildDocumentation($pkgName, $data, $buildDir, $output);
+            foreach ($versions as $version) {
+                $output->writeln('+ building version <info>'. $version .'</info>', true);
+                $this->doCheckout($pkgName, $version, $buildDir, $output);
+                $this->buildApiDoc($pkgName, $data, $version, $buildDir, $phpDocBin, $output);
+                $this->buildDocumentation($pkgName, $data, $version, $buildDir, $output);
+            }
         }
     }
 
-    protected function buildDocumentation($pkg, $data, $buildDir, OutputInterface $output)
+    protected function buildDocumentation($pkg, $data, $version, $buildDir, OutputInterface $output)
     {
         if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
-            $output->writeln('- Building Documentation ...');
+            $output->writeln('    - Building Documentation ...');
         }
 
-
+        $docsDir = $data['docs'];
+        $fullDir = realpath($buildDir . DIRECTORY_SEPARATOR . $pkg . DIRECTORY_SEPARATOR . $docsDir);
+        if (false === $fullDir) {
+            if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
+                $output->writeln('    <error>No documentation found in '. $fullDir .'</error>');
+            }
+            return;
+        }
+        if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
+            $output->writeln('    - documentation found in '. $fullDir .'! Building...');
+        }
+        
+        $finder = new Finder();
+        $finder->files()->in($fullDir)->name('*.md');
+        foreach ($finder as $file) {
+            if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
+                $output->write('        = Processing file: '. $file->getRelativePathname() . ' ... ');
+            }
+            $finalFile = realpath($buildDir) 
+                    . DIRECTORY_SEPARATOR 
+                    . $pkg 
+                    . DIRECTORY_SEPARATOR 
+                    . 'build'
+                    . DIRECTORY_SEPARATOR 
+                    . $version 
+                    . DIRECTORY_SEPARATOR
+                    . 'docs'
+                    . DIRECTORY_SEPARATOR
+                    . str_replace('.md', '.html', $file->getRelativePathname());
+            
+            $infos = pathinfo($finalFile, PATHINFO_DIRNAME);
+            if (!is_dir($infos)) {
+                mkdir($infos);
+            }
+            file_put_contents($finalFile, MarkdownExtra::defaultTransform($file->getContents()));
+            
+            if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
+                $output->writeln('OK');
+            }
+        }
     }
 
-    protected function buildApiDoc($pkg, $data, $buildDir, $phpDocBin, OutputInterface $output)
+    protected function buildApiDoc($pkg, $data, $version, $buildDir, $phpDocBin, OutputInterface $output)
     {
         if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
-            $output->writeln('- Building API documentation ...');
+            $output->writeln('    - Building API documentation ...');
         }
 
-        $proc = $this->proc(sprintf('%s -d . -t ./build/apidoc --template="xml" --ignore="*vendor*,*docs*,*Tests*"', $phpDocBin), $buildDir . DIRECTORY_SEPARATOR . $pkg, $output, 200);
+        $proc = $this->proc(sprintf('%s -d . -t ./build/'. $version .'/apidoc --template="xml" --ignore="*vendor*,*docs*,*Tests*"', $phpDocBin), $buildDir . DIRECTORY_SEPARATOR . $pkg, $output, 200);
         if (!$proc->isSuccessful()) {
             throw new \Exception('Unable to build API documentation: '. $proc->getErrorOutput());
         }
@@ -93,20 +145,29 @@ class FwkFetchCommand extends Command implements ServicesAware
     {
         if (!is_dir($buildDir . DIRECTORY_SEPARATOR . $pkg)) {
             if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
-                $output->writeln('- Package previous installation not found. Cloning repository ...');
+                $output->writeln('+ Package previous installation not found. Cloning repository ...');
             }
             $proc = $this->proc('git clone '. $data['repository'], $buildDir, $output);
             if (!$proc->isSuccessful()) {
                 throw new \Exception('Unable to clone package repository: '. $pkg .'/'. $data['repository'] .': '. $proc->getErrorOutput());
             }
-        } else {
-            if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
-                $output->writeln('- Previous installation found. Updating ...');
-            }
-            $proc = $this->proc('git pull -u origin master -ff', $buildDir . DIRECTORY_SEPARATOR . $pkg, $output);
-            if (!$proc->isSuccessful()) {
-                throw new \Exception('Unable to update package repository: '. $pkg .'/'. $data['repository'] .': '. $proc->getErrorOutput());
-            }
+        } 
+        
+        if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
+            $output->writeln('+ Previous installation found. Updating ...');
+        }
+        
+        $proc = $this->proc('git fetch --all && git pull --all -ff', $buildDir . DIRECTORY_SEPARATOR . $pkg, $output);
+        if (!$proc->isSuccessful()) {
+            throw new \Exception('Unable to update package repository: '. $pkg .'/'. $data['repository'] .': '. $proc->getErrorOutput());
+        }
+    }
+    
+    protected function doCheckout($pkg, $version, $buildDir, OutputInterface $output)
+    {
+        $proc = $this->proc('git checkout '. $version, $buildDir . DIRECTORY_SEPARATOR . $pkg, $output);
+        if (!$proc->isSuccessful()) {
+            throw new \Exception('Unable to checkout version: '. $pkg .'/'. $version .': '. $proc->getErrorOutput());
         }
     }
 

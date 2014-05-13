@@ -62,6 +62,7 @@ class FwkPackagesDataSource implements DataSource
                 ->addChildren(Path::factory('intro', 'intro'))
                 ->addChildren(Path::factory('docs', 'docs'))
                 ->addChildren(Path::factory('icon', 'icon'))
+                ->addChildren(Path::factory('versions', 'versions'))
         );
         
         return $map;

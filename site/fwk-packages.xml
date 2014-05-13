@@ -7,6 +7,7 @@
         <intro>INTRO.md</intro>
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-cog</icon>
+        <versions>master</versions>
     </package>
     <package id="Db">
         <name>Fwk\Db</name>
@@ -15,6 +16,7 @@
         <intro>INTRO.md</intro>
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-hdd</icon>
+        <versions>master</versions>
     </package>
     <package id="Di">
         <name>Fwk\Di</name>
@@ -23,6 +25,7 @@
         <intro>INTRO.md</intro>
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-play-circle</icon>
+        <versions>master</versions>
     </package>
     <package id="Xml">
         <name>Fwk\Xml</name>
@@ -31,6 +34,7 @@
         <intro>INTRO.md</intro>
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-sound-stereo</icon>
+        <versions>master</versions>
     </package>
     <package id="Form">
         <name>Fwk\Form</name>
@@ -39,6 +43,7 @@
         <intro>INTRO.md</intro>
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-list</icon>
+        <versions>master</versions>
     </package>
     <package id="Cache">
         <name>Fwk\Cache</name>
@@ -47,6 +52,7 @@
         <intro>INTRO.md</intro>
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-road</icon>
+        <versions>master</versions>
     </package>
     <package id="Events">
         <name>Fwk\Events</name>
@@ -55,5 +61,6 @@
         <intro>INTRO.md</intro>
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-flash</icon>
+        <versions>master</versions>
     </package>
 </packages>
