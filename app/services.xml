@@ -123,6 +123,9 @@
     <class-definition name="cms" class="FwkWWW\CmsService" shared="true">
         <argument>:packageDir/../site/site.yml</argument>
         <argument>@cms.Providers</argument>
+        <call method="initServices">
+            <argument>@self</argument>
+        </call>
     </class-definition>
     
     <class-definition name="cms.RoutesProvider" class="FwkWWW\Providers\Routes\ConfigRoutesProvider" shared="true" />
@@ -141,5 +144,5 @@
         <argument>consoleApp</argument>
         <argument>cms</argument>
     </class-definition>
-    
+
 </dependency-injection>

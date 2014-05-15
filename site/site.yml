@@ -15,6 +15,8 @@ domain:
     name: nitronet.org
     force: true
 config: ~
+services:
+    - ./services.xml
 commands: 
     - Nitronet\Commands\FwkFetchCommand
 urls:
@@ -24,42 +26,49 @@ urls:
             slug:
                 required: true
                 regex: .*
-    "/fwk/:package/api$":
+    "/fwk/:package/api/:version$":
         page: fwk/apidoc
         parameters:
             package:
                 required: true
-    "/fwk/:package/api/:type/:className.html$":
+            version:
+                required: false
+                default: master
+    "/fwk/:package/api/:version/:type/:className.html$":
         page: fwk/apidoc-class
         parameters:
             package:
                 required: true
+            version:
+                required: true
+                default: master
             type:
                 required: true
                 regex: class|interface
             className:
                 required: true
                 regex: .*
-    "/fwk/:package/download$":
-        page: fwk/download
-        parameters:
-            package:
-                required: true
-    "/fwk/:package/doc$":
+    "/fwk/:package/doc/:version$":
         page: fwk/doc
         parameters:
             package:
                 required: true
+            version:
+                required: false
+                default: master
     "/fwk/:package/board$":
         page: fwk/board
         parameters:
             package:
                 required: true
-    "/fwk/:package$":
+    "/fwk/:package/:version$":
         page: fwk/intro
         parameters:
             package:
                 required: true
+            version:
+                required: false
+                default: master
     "/blog/:category":
         page: blog
         parameters:

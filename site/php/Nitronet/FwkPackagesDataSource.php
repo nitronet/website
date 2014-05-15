@@ -33,6 +33,18 @@ class FwkPackagesDataSource implements DataSource
         
         return $this->packages;
     }
+
+    protected function versions($package)
+    {
+        $one = $this->one($package);
+
+        $versions = $one['versions'];
+        if (strpos($versions, ',') !== false) {
+            return explode(',', $versions);
+        }
+
+        return array($versions);
+    }
     
     protected function load()
     {

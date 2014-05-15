@@ -1,6 +1,3 @@
 datasources:
         apidoc: 
-            class: Nitronet\FwkApiDocDataSource
-            #service: serviceName
-            constructor:
-                - /home/neiluj/www/framework/Core/build/apidoc/structure.xml
+            service: fwk.ds.apidoc

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dependency-injection>
+    <class-definition name="fwk.ds.apidoc" class="Nitronet\FwkApiDocDataSource" shared="true">
+        <argument>:fwk.build.dir</argument>
+    </class-definition>
+    <class-definition name="fwk.ds.doc" class="Nitronet\FwkDocumentationDataSource" shared="true">
+        <argument>:fwk.build.dir</argument>
+    </class-definition>
+</dependency-injection>

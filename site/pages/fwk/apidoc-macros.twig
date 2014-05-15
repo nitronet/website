@@ -1,11 +1,11 @@
-{% macro link(className, type, package, _helper) %}
-{% spaceless %}{{ _helper.url("PageView", {page: "fwk/apidoc-class", package: package, type: type, className: className|trim('\\')|replace({'\\': '/'})}, true)|raw }}{% endspaceless %}
+{% macro link(className, type, package, version, _helper) %}
+{% spaceless %}{{ _helper.url("PageView", {page: "fwk/apidoc-class", package: package, type: type, version: version, className: className|trim('\\')|replace({'\\': '/'})}, true)|raw }}{% endspaceless %}
 {% endmacro %}
 
-{% macro listClasses(classes, type, package, active, _helper) %}
+{% macro listClasses(classes, type, package, version, active, _helper) %}
 <ul class="nav nav-pills nav-stacked classes" style="font-size: 12px;max-height: 500px; overflow-y: auto;">
     {% for className, infos in classes %}
-                <li{% if active == className|trim('\\')|replace({'\\': '/'}) %} class="active"{% endif %}><a href="{{ _self.link(className, type, package, _helper) }}">{{ className|trim('\\') }}</a></li>
+                <li{% if active == className|trim('\\')|replace({'\\': '/'}) %} class="active"{% endif %}><a href="{{ _self.link(className, type, package, version, _helper) }}">{{ className|trim('\\') }}</a></li>
     {% endfor %}
             </ul>{% endmacro %}
 
@@ -16,16 +16,16 @@
     {% endif %}   
 {% endmacro %}
 
-{% macro classDoc(className, apidoc, type, package, _helper) %}
-{% set class = apidoc.doc(className, type) %}
+{% macro classDoc(className, apidoc, type, package, version, _helper) %}
+{% set class = apidoc.doc(package, className, type, version) %}
 <h3>{% if class.abstract == 'true' %}Abstract {% endif %}
     {% if class.final == 'true' %}Final {% endif %}
     {% if type == 'class' %}<span id="apiType">Class</span> {% else %}<span id="apiType">Interface</span> {% endif %} 
-    <a href="{{ _self.link(className, type, package, _helper) }}" id="apiClass">{{ className|replace('/', '\\') }}</a>
+    <a href="{{ _self.link(className, type, package, version, _helper) }}" id="apiClass">{{ className|replace('/', '\\') }}</a>
 </h3>
-{% if class.extends != null %}<h4>&nbsp; &nbsp; &nbsp; &rBarr; extends <a href="{{ _self.link(class.extends, type, package, _helper) }}">{{ class.extends }}</a></h4>{% endif %}
+{% if class.extends != null %}<h4>&nbsp; &nbsp; &nbsp; &rBarr; extends <a href="{{ _self.link(class.extends, type, package, version, _helper) }}">{{ class.extends }}</a></h4>{% endif %}
 {% for interface in class.implements %}
-    <h4>&nbsp; &nbsp; &nbsp; {% if loop.first %} &rBarr; implements{% else %}&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;{% endif %} <a href="{{ _self.link(interface, "interface", package, _helper) }}">{{ interface }}</a></h4>
+    <h4>&nbsp; &nbsp; &nbsp; {% if loop.first %} &rBarr; implements{% else %}&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;{% endif %} <a href="{{ _self.link(interface, "interface", package, version, _helper) }}">{{ interface }}</a></h4>
 {% endfor %}
 <hr />
 {{ _self.docblock(class.docblock, _helper) }}

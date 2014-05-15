@@ -1,5 +1,5 @@
 {% set pkg = packages.one(query.package) %}
-    
+
 {% block title %}{% block pkg_title %}{% endblock %} &CenterDot; {{ pkg.name }}: {{ pkg.description }} &CenterDot; Nitronet{% endblock title %}
 
 {% extends "layouts/main.twig" %}
@@ -16,31 +16,33 @@
 <ul class="nav nav-tabs packages" id="pkgTabs">
     {% set packs = packages.packages() %}
 {% for id, package in packs %}
-    <li{% if query.package == id %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: id}) }}"><i class="{{ package.icon }}" title="{{ package.description }}"></i> {{ id }}</a></li>
+    <li{% if query.package == id %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: id, version: query.version}) }}"><i class="{{ package.icon }}" title="{{ package.description }}"></i> {{ id }}</a></li>
 {% endfor %}
 </ul>
 <nav class="navbar navbar-default navbar-inverse" role="navigation">
   <div class="container-fluid">
     <!-- Collect the nav links, forms, and other content for toggling -->
       <ul class="nav navbar-nav">
-        <li{% if fwk_pkg_menu_active == "intro" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: query.package}) }}">Introduction</a></li>
-        <li{% if fwk_pkg_menu_active == "download" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/download', package: query.package}) }}">Download</a></li>
-        <li{% if fwk_pkg_menu_active == "doc" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/doc', package: query.package}) }}">Documentation</a></li>
-        <li{% if fwk_pkg_menu_active == "api" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/apidoc', package: query.package}) }}">API</a></li>
-        <li{% if fwk_pkg_menu_active == "board" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/board', package: query.package}) }}">Discuss <i class="glyphicon glyphicon-comment"></i></a></li>
+        <li{% if fwk_pkg_menu_active == "intro" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: query.package, version: query.version}) }}">Introduction</a></li>
+        <li{% if fwk_pkg_menu_active == "doc" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/doc', package: query.package, version: query.version}) }}">Documentation</a></li>
+        <li{% if fwk_pkg_menu_active == "api" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/apidoc', package: query.package, version: query.version}) }}">API</a></li>
+        <li{% if fwk_pkg_menu_active == "board" %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/board', package: query.package, version: query.version}) }}">Discuss <i class="glyphicon glyphicon-comment"></i></a></li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">master <b class="caret"></b></a>
+           {% set versions = packages.versions(query.package) %}
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ query.version }} <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="#">v1.2</a></li>
+              {%  for v in versions %}
+            <li><a href="{{ _helper.url('PageView', {page: query.page, package: query.package, version: v}) }}">{{ v }}</a></li>
+              {% endfor %}
           </ul>
         </li>
       </ul>
   </div><!-- /.container-fluid -->
 </nav>
-    
+        {{ dump(packages.versions(query.package)) }}
 {% block fwk_pkg_contents %}{% endblock %}
     </div>
   </div>

@@ -18,18 +18,18 @@
 <section id="pkg_contents">
     <div class="row">
       <div class="col-md-4" data-pjax>
-          {% set classes = apidoc.classes(query.package) %}
-          {% set interfaces = apidoc.interfaces(query.package) %}
+          {% set classes = apidoc.classes(query.package, query.version) %}
+          {% set interfaces = apidoc.interfaces(query.package, query.version) %}
           <ul class="nav nav-tabs" id="docTabs" style="margin: 20px 0 0 0">
             <li class="active"><a href="#classes" id="classTab">Classes ({{ classes|length }})</a></li>
             <li><a href="#interfaces" id="interfaceTab">Interfaces ({{ interfaces|length }})</a></li>
           </ul>
           <div id="myTabContent" class="tab-content">
               <div id="classes" class="tab-pane fade active in">
-                  {{ doc.listClasses(classes, "class", query.package, null, _helper) }}
+                  {{ doc.listClasses(classes, "class", query.package, query.version, null, _helper) }}
               </div>
               <div id="interfaces" class="tab-pane">
-                  {{ doc.listClasses(interfaces, "interface", query.package, null, _helper) }}
+                  {{ doc.listClasses(interfaces, "interface", query.package, query.version, null, _helper) }}
               </div>
           </div>
       </div>
@@ -41,7 +41,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb" id="apiNav">
                 <li><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: query.package}, true)|raw }}">{{ query.package }}</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/apidoc', package: query.package}, true)|raw }}">API Doc</a></li>
+                <li><a href="{{ _helper.url('PageView', {page: 'fwk/apidoc', package: query.package, version: query.version}, true)|raw }}">API Doc</a></li>
                 <li class="active"></li>
             </ol>
         </div>

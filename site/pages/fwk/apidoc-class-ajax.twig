@@ -1,5 +1,5 @@
 {% set pkg = packages.one(query.package) %}
-{% set class = apidoc.doc(query.className, query.type) %}    
+{% set class = apidoc.doc(query.package, query.className, query.type, query.version) %}
 
 {% import "fwk/apidoc-macros.twig" as doc %}
 
@@ -11,7 +11,7 @@
   
   <body>
       <div id="pjax-container" data-pjax>
-{{ doc.classDoc(query.className, apidoc, query.type, query.package, _helper) }}
+{{ doc.classDoc(query.className, apidoc, query.type, query.package, query.version, _helper) }}
 <script type="text/javascript">
         $(function() {
             var updateMenuActive = function() {

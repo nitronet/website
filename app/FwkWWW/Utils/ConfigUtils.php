@@ -35,6 +35,7 @@ class ConfigUtils
             ),
             'config'        => array(),
             'urls'          => array(),
+            'services'      => array(),
             'commands'      => array(),
             'page_config'   => array(
                 'template'  => null,

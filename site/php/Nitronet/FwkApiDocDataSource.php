@@ -8,51 +8,69 @@ use Fwk\Xml\Path;
 
 class FwkApiDocDataSource implements DataSource
 {
-    protected $xmlPath;
+    protected $buildDir;
     
     protected $classes;
     protected $interfaces;
     
-    public function __construct($xmlPath)
+    public function __construct($fwkBuildDir)
     {
-        $this->xmlPath = $xmlPath;
+        $this->buildDir = $fwkBuildDir;
     }
     
-    public function doc($className, $type)
+    public function doc($package, $className, $type, $version = "master")
     {
-        $this->load();
+        $version = (empty($version) ? 'master' : trim($version));
+
+        $this->load($package, $version);
         
         $key = '\\' . str_replace('/', '\\', $className);
         $ref = ($type == "class" ? $this->classes : $this->interfaces);
         
-        if (!isset($ref[$key])) {
+        if (!isset($ref[$package . $version][$key])) {
             throw new \InvalidArgumentException('unknown '. $type .': '. $className);
         }
         
-        return $ref[$key];
+        return $ref[$package . $version][$key];
     }
     
-    public function classes($package)
+    public function classes($package, $version = "master")
     {
-        $this->load();
+        $version = (empty($version) ? 'master' : trim($version));
+
+        $this->load($package, $version);
         
-        return $this->classes;
+        return $this->classes[$package . $version];
     }
     
-    public function interfaces($package)
+    public function interfaces($package, $version = "master")
     {
-        $this->load();
+        $version = (empty($version) ? 'master' : trim($version));
+
+        $this->load($package, $version);
         
-        return $this->interfaces;
+        return $this->interfaces[$package . $version];
     }
     
-    protected function load()
+    protected function load($package, $version = "master")
     {
-        if (isset($this->classes)) {
+        $version = (empty($version) ? 'master' : trim($version));
+
+        if (isset($this->classes[$package . $version])) {
             return;
         }
-        
-        $file = new XmlFile($this->xmlPath);
+
+        $xmlFile = $this->buildDir
+            . DIRECTORY_SEPARATOR
+            . ucfirst(strtolower($package))
+            . DIRECTORY_SEPARATOR
+            . 'build'
+            . DIRECTORY_SEPARATOR
+            . $version
+            . DIRECTORY_SEPARATOR
+            . 'apidoc/structure.xml';
+
+        $file = new XmlFile($xmlFile);
         $res = self::xmlMapFactory()->execute($file);
         
         ksort($res['classes'], SORT_NATURAL | SORT_FLAG_CASE);
@@ -64,8 +82,8 @@ class FwkApiDocDataSource implements DataSource
         foreach ($res['interfaces'] as &$data) {
             ksort($data['methods'], SORT_NATURAL);
         }
-        $this->interfaces = $res['interfaces'];
-        $this->classes = $res['classes'];
+        $this->interfaces[$package . $version] = $res['interfaces'];
+        $this->classes[$package . $version] = $res['classes'];
     }
     
     /**

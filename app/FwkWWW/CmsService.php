@@ -1,6 +1,8 @@
 <?php
 namespace FwkWWW;
 
+use Fwk\Di\Container;
+use Fwk\Di\Xml\ContainerBuilder;
 use FwkWWW\Utils\ConfigUtils;
 use Symfony\Component\Yaml\Yaml;
 use FwkWWW\Exceptions\InvalidConfigFile;
@@ -174,5 +176,19 @@ class CmsService extends Dispatcher
         $loader->register(true);
         
         $this->loaded = true;
+    }
+
+    public function initServices(Container $container)
+    {
+        $cfg = $this->getSiteConfig();
+        if (!isset($cfg['services']) || !is_array($cfg['services'])) {
+            return;
+        }
+
+        $builder    = new ContainerBuilder();
+        $utils      = new Utils\PathUtils(dirname($this->configFile));
+        foreach ($cfg['services'] as $servicesXml) {
+            $builder->execute($utils->calculate(array($servicesXml)), $container);
+        }
     }
 }

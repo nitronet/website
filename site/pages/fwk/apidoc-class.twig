@@ -5,8 +5,8 @@
 {% import "fwk/apidoc-macros.twig" as doc %}
 
 {% set fwk_pkg_menu_active = "api" %}
-{% set classes = apidoc.classes(query.package) %}
-{% set class = apidoc.doc(query.className, query.type) %}    
+{% set classes = apidoc.classes(query.package, query.version) %}
+{% set class = apidoc.doc(query.package, query.className, query.type, query.version) %}
 
 {% block headertag %}
 {% for asset in _helper.asset([
@@ -16,8 +16,7 @@
 {% endfor %}
 {% endblock %}
     
-{% set classes = apidoc.classes(query.package) %}
-{% set interfaces = apidoc.interfaces(query.package) %}
+{% set interfaces = apidoc.interfaces(query.package, query.version) %}
 
 {% block fwk_pkg_contents %}
 <section id="pkg_contents">
@@ -29,16 +28,16 @@
         </ul>
         <div id="myTabContent" class="tab-content">
             <div id="classes" class="tab-pane{% if query.type == 'class' %} active in{% endif %}">
-                {{ doc.listClasses(classes, "class", query.package, query.className, _helper) }}
+                {{ doc.listClasses(classes, "class", query.package, query.version, query.className, _helper) }}
             </div>
             <div id="interfaces" class="tab-pane{% if query.type == 'interface' %} active in{% endif %}">
-                {{ doc.listClasses(interfaces, "interface", query.package, query.className, _helper) }}
+                {{ doc.listClasses(interfaces, "interface", query.package, query.version, query.className, _helper) }}
             </div>
         </div>
     </div>
       <div class="col-md-8" id="pjax-container" data-pjax>
-          {{ doc.classDoc(query.className, apidoc, query.type, query.package, _helper) }}
-      </div>  
+          {{ doc.classDoc(query.className, apidoc, query.type, query.package, query.version, _helper) }}
+      </div>
     </div>
     <div class="row" style="clear:both;margin-top:30px;">
         <div class="col-md-12">
