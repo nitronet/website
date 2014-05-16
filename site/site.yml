@@ -95,3 +95,4 @@ page_config:
             #service: serviceName
             constructor:
                 - /home/neiluj/www/nitronet-www/site/fwk-packages.xml
+                - @fwk.cache

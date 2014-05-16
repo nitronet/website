@@ -5,6 +5,7 @@ use FwkWWW\DataSource;
 use Fwk\Xml\XmlFile;
 use Fwk\Xml\Map;
 use Fwk\Xml\Path;
+use Fwk\Cache\Manager;
 
 class FwkApiDocDataSource implements DataSource
 {
@@ -12,10 +13,12 @@ class FwkApiDocDataSource implements DataSource
     
     protected $classes;
     protected $interfaces;
+    protected $cache;
     
-    public function __construct($fwkBuildDir)
+    public function __construct($fwkBuildDir, Manager $cache = null)
     {
         $this->buildDir = $fwkBuildDir;
+        $this->cache    = $cache;
     }
     
     public function doc($package, $className, $type, $version = "master")
@@ -60,28 +63,41 @@ class FwkApiDocDataSource implements DataSource
             return;
         }
 
-        $xmlFile = $this->buildDir
-            . DIRECTORY_SEPARATOR
-            . ucfirst(strtolower($package))
-            . DIRECTORY_SEPARATOR
-            . 'build'
-            . DIRECTORY_SEPARATOR
-            . $version
-            . DIRECTORY_SEPARATOR
-            . 'apidoc/structure.xml';
+        $fetch = function($package, $version) {
+            $xmlFile = $this->buildDir
+                . DIRECTORY_SEPARATOR
+                . ucfirst(strtolower($package))
+                . DIRECTORY_SEPARATOR
+                . 'build'
+                . DIRECTORY_SEPARATOR
+                . $version
+                . DIRECTORY_SEPARATOR
+                . 'apidoc/structure.xml';
 
-        $file = new XmlFile($xmlFile);
-        $res = self::xmlMapFactory()->execute($file);
-        
-        ksort($res['classes'], SORT_NATURAL | SORT_FLAG_CASE);
-        foreach ($res['classes'] as &$data) {
-            ksort($data['methods'], SORT_NATURAL);
+            $file = new XmlFile($xmlFile);
+            $res = self::xmlMapFactory()->execute($file);
+
+            ksort($res['classes'], SORT_NATURAL | SORT_FLAG_CASE);
+            foreach ($res['classes'] as &$data) {
+                ksort($data['methods'], SORT_NATURAL);
+            }
+
+            ksort($res['interfaces'], SORT_NATURAL | SORT_FLAG_CASE);
+            foreach ($res['interfaces'] as &$data) {
+                ksort($data['methods'], SORT_NATURAL);
+            }
+
+            return array('classes' => $res['classes'], 'interfaces' => $res['interfaces']);
+        };
+
+        if ($this->cache instanceof Manager) {
+            $res = $this->cache->get('fwk:api:'. $package . ':'. $version, '1day', function() use ($package, $version, $fetch) {
+                return $fetch($package, $version);
+            })->getContents();
+        } else {
+            $res = $fetch($package, $version);
         }
-        
-        ksort($res['interfaces'], SORT_NATURAL | SORT_FLAG_CASE);
-        foreach ($res['interfaces'] as &$data) {
-            ksort($data['methods'], SORT_NATURAL);
-        }
+
         $this->interfaces[$package . $version] = $res['interfaces'];
         $this->classes[$package . $version] = $res['classes'];
     }

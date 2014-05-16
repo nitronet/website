@@ -32,17 +32,18 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
            {% set versions = packages.versions(query.package) %}
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ query.version }} <b class="caret"></b></a>
+          <a href="#"{% if versions|length > 1 %} class="dropdown-toggle" data-toggle="dropdown"{% endif %}>{{ query.version }}{% if versions|length > 1 %} <b class="caret"></b>{% endif %}</a>
+          {% if versions|length > 1 %}
           <ul class="dropdown-menu">
               {%  for v in versions %}
             <li><a href="{{ _helper.url('PageView', {page: query.page, package: query.package, version: v}) }}">{{ v }}</a></li>
               {% endfor %}
           </ul>
+          {% endif %}
         </li>
       </ul>
   </div><!-- /.container-fluid -->
 </nav>
-        {{ dump(packages.versions(query.package)) }}
 {% block fwk_pkg_contents %}{% endblock %}
     </div>
   </div>

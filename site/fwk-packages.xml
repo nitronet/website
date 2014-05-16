@@ -7,7 +7,7 @@
         <intro>INTRO.md</intro>
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-cog</icon>
-        <versions>master,124</versions>
+        <versions>master</versions>
     </package>
     <package id="Db">
         <name>Fwk\Db</name>

@@ -1,6 +1,7 @@
 <?php
 namespace Nitronet;
 
+use Fwk\Cache\Manager;
 use FwkWWW\DataSource;
 use Fwk\Xml\Map;
 use Fwk\Xml\Path;
@@ -10,10 +11,12 @@ class FwkPackagesDataSource implements DataSource
 {
     protected $xmlFile;
     protected $packages;
+    protected $cache;
     
-    public function __construct($xmlFile)
+    public function __construct($xmlFile, Manager $cache = null)
     {
         $this->xmlFile = $xmlFile;
+        $this->cache = $cache;
     }
     
     public function one($name)
@@ -34,7 +37,7 @@ class FwkPackagesDataSource implements DataSource
         return $this->packages;
     }
 
-    protected function versions($package)
+    public function versions($package)
     {
         $one = $this->one($package);
 
@@ -51,11 +54,19 @@ class FwkPackagesDataSource implements DataSource
         if (isset($this->packages)) {
             return;
         }
-        
-        $file = new XmlFile($this->xmlFile);
-        $res = self::xmlMapFactory()->execute($file);
-        
-        $this->packages = $res['packages'];
+
+        $fetch = function() {
+            $file = new XmlFile($this->xmlFile);
+            $res = self::xmlMapFactory()->execute($file);
+
+            return $res['packages'];
+        };
+
+        if ($this->cache instanceof Manager) {
+            $this->packages = $this->cache->get('fwk:packages', '1day', $fetch)->getContents();;
+        }
+
+        $this->packages = $fetch();
     }
     
     /**
