@@ -56,6 +56,17 @@ urls:
             version:
                 required: false
                 default: master
+    "/fwk/:package/doc/:version/:docPage$":
+            page: fwk/doc
+            parameters:
+                package:
+                    required: true
+                version:
+                    required: false
+                    default: master
+                docPage:
+                    required: true
+                    regex: .*
     "/fwk/:package/board$":
         page: fwk/board
         parameters:

@@ -1,0 +1,27 @@
+{% set docPage = documentation.doc((query.docPage == null ? 'README' : query.docPage), query.package, query.version) %}
+{% block pkg_title %}{{ docPage.title }} &CenterDot; Documentation{% endblock pkg_title %}
+
+{% extends "layouts/fwk_package.twig" %}
+
+{% set fwk_pkg_menu_active = "doc" %}
+    
+{% block headertag %}
+{% for asset in _helper.asset([
+        '+bower/jquery-pjax/jquery-pjax.js',
+    ], null, 'pjax') %}
+    <script type="text/javascript" src="{{ asset }}"></script>
+{% endfor %}
+{% endblock %}
+
+{% block fwk_pkg_contents %}
+<section id="pkg_contents">
+    <div class="row">
+      <div class="col-md-3" data-pjax>
+            {{ documentation.restoreDocLinks(documentation.doc('SUMMARY', query.package, query.version).content, query.package, query.version, _helper)|raw }}
+      </div>
+      <div class="col-md-9" id="pjax-container" data-pjax>
+            {{ documentation.restoreDocLinks(docPage.content, query.package, query.version, _helper)|raw }}
+      </div>  
+    </div>
+</section>
+{% endblock %}

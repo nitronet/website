@@ -115,18 +115,51 @@ class FwkFetchCommand extends Command implements ServicesAware
                     . DIRECTORY_SEPARATOR
                     . 'docs'
                     . DIRECTORY_SEPARATOR
-                    . str_replace('.md', '.html', $file->getRelativePathname());
+                    . str_replace('.md', '.json', $file->getRelativePathname());
             
             $infos = pathinfo($finalFile, PATHINFO_DIRNAME);
             if (!is_dir($infos)) {
                 mkdir($infos);
             }
-            file_put_contents($finalFile, MarkdownExtra::defaultTransform($file->getContents()));
+
+            $html   = MarkdownExtra::defaultTransform($file->getContents());
+            $encode = array(
+                'content'   => $this->replaceDocLinks($html, $file->getRelativePathname()),
+                'title'     => $this->extractPageTitle($html)
+            );
+
+            file_put_contents($finalFile, json_encode($encode));
             
             if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
                 $output->writeln('OK');
             }
         }
+    }
+
+    private function extractPageTitle($html)
+    {
+        if (preg_match('#<h1>(.[^<]*)</h1>#i', $html, $matches)) {
+            return $matches[1];
+        }
+
+        return null;
+    }
+
+    private function replaceDocLinks($html, $pagePath)
+    {
+        if (preg_match_all('#href="(\.|\.\.)/(.[^\"]*).md"#', $html, $matches)) {
+            $finds = array();
+            $repl  = array();
+
+            foreach ($matches[0] as $idx => $value) {
+                    $finds[] = $value;
+                    $repl[] = 'href="DOCKLINK:'. $matches[2][$idx] .'"';
+            }
+
+            $html = str_replace($finds, $repl, $html);
+        }
+
+        return $html;
     }
 
     protected function buildApiDoc($pkg, $data, $version, $buildDir, $phpDocBin, OutputInterface $output)
