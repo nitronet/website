@@ -16,22 +16,6 @@
 ], null, 'highlight-github') %}
 <link rel="stylesheet" href="{{ asset }}">
 {% endfor %}
-{% endblock %}
-
-{% block fwk_pkg_contents %}
-<section id="pkg_contents">
-    <div class="row">
-      <div class="col-md-3" data-pjax>
-            {{ documentation.restoreDocLinks(documentation.doc('SUMMARY', query.package, query.version).content, query.package, query.version, _helper)|raw }}
-      </div>
-      <div class="col-md-9" id="pjax-container" data-pjax>
-            {{ documentation.restoreDocLinks(docPage.content, query.package, query.version, _helper)|raw }}
-      </div>  
-    </div>
-</section>
-{% endblock %}
-
-{% block footertag %}
 {% for asset in _helper.asset([
 '+bower/highlight/highlight.pack.js',
 ], null, 'highlight') %}
@@ -40,4 +24,24 @@
 <script type="text/javascript">
     hljs.initHighlightingOnLoad();
 </script>
-{%  endblock %}
+{% endblock %}
+
+{% block fwk_pkg_contents %}
+<section id="pkg_contents">
+    <div class="row">
+      <div class="col-md-3 doc-summary" data-pjax>
+          <h5><i class="glyphicon glyphicon-book pull-right"></i> Documentation Summary</h5>
+            {{ documentation.restoreDocLinks(documentation.summary(query.package, query.version).content, query.package, query.version, _helper)|raw }}
+
+          <hr />
+          <h5><i class="glyphicon glyphicon-volume-up pull-right"></i> Get involved</h5>
+          <p>Found a typo? Want to share something or contribute to this documentation ?  <a href="https://github.com/fwk/{{ query.package }}/tree/{{  query.version }}/docs/{{ query.docPage }}.md">Edit</a> or <a href="#comments">Comment</a> this page!</a></p>
+      </div>
+      <div class="col-md-9" id="pjax-container" data-pjax>
+            {{ documentation.restoreDocLinks(docPage.content, query.package, query.version, _helper)|raw }}
+
+          <h3><a name="comments"></a>Comments</h3>
+      </div>  
+    </div>
+</section>
+{% endblock %}

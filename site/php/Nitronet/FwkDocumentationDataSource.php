@@ -35,6 +35,12 @@ class FwkDocumentationDataSource extends FwkPackagesDataSource
         return json_decode(file_get_contents($docFile));
     }
 
+    public function summary($package, $version = "master")
+    {
+        $data = $this->doc('SUMMARY', $package, $version);
+        return $data;
+    }
+
     public function restoreDocLinks($contents, $package, $version, ViewHelperService $viewHelper)
     {
         if (preg_match_all('#href="DOCKLINK:(.[^\"]*)"#', $contents, $matches)) {
