@@ -22,17 +22,27 @@ a.navbar-brand i {
     font-size: 22px;
 }
 
-#footer {
-    display: block;
-    margin-top: 40px;
-    background-color: #7A62D3;
-    padding: 20px 0;
-    color: #fff;
-}
-#footer a {
-    color: #fff;
+.pkgNav {
+    z-index:auto !important;
 }
 
+#footer {
+    display: block;
+    margin-top: 100px;
+    color: #999;
+    text-align: center;
+}
+#footer a {
+    color: #666;
+}
+#footer i {
+    font-size: 5em;
+    color: #ececec;
+    position:absolute;
+    bottom: -20px;
+    z-index: -999;
+    overflow: hidden;
+}
 pre {
     padding: 0;
     border: solid 1px #ccc;

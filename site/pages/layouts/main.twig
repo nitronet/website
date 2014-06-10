@@ -41,7 +41,7 @@
               <a href="{{ _helper.url('PageView', {page: 'fwk'}) }}" class=" dropdown-toggle" data-toggle="dropdown">Fwk <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="{{ _helper.url('PageView', {page: 'fwk'}) }}">Introduction</a></li>
-                <li><a href="{{ _helper.url('PageView', {page: 'fwk/book'}) }}">The Book</a></li>
+                <li><a href="https://groups.google.com/forum/#!forum/phpfwk">Discuss <i class="glyphicon glyphicon-comment"></i></i></a></li>
                 <li class="divider"></li>
                 {% set packs = packages.packages() %}
 {% for id, package in packs %}
@@ -70,17 +70,9 @@
     <div id="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-2">
-                    <h4><a class="" href="{{ _helper.url('PageView') }}">Nitronet <i class="glyphicon glyphicon-fire"></i></a></h4>
-                </div>
-          <div class="col-md-6">
-                   <ul class="list-unstyled list-inline">
-            <li class="dropdown">
-              <a href="{{ _helper.url('PageView', {page: 'fwk'}) }}">Fwk</a>
-            </li>
-            <li><a href="{{ _helper.url('PageView', {page: 'blog'}) }}">Blog</a></li>
-            <li><a href="{{ _helper.url('PageView', {page: 'about'}) }}">About</a></li>
-          </ul>
+                <div class="col-md-12">
+                    <i class="glyphicon glyphicon-fire"></i>
+                    <p class="copyright">Content is licensed under <a href="#">CreativeCommons v3</a> and the <a href="https://github.com/nitronet/website">source code</a> is licensed under <a href="#">GPL v3</a>.<br />Everything else is copyright &copy; 2014 <a href="http://neiluj.pro">Julien Ballestracci</a>.</p>
                 </div>
             </div>
         </div>
