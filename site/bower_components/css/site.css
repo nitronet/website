@@ -28,7 +28,7 @@ a.navbar-brand i {
 
 #footer {
     display: block;
-    margin-top: 100px;
+    margin-top: 60px;
     color: #999;
     text-align: center;
 }
@@ -39,9 +39,14 @@ a.navbar-brand i {
     font-size: 5em;
     color: #ececec;
     position:absolute;
-    bottom: -20px;
     z-index: -999;
     overflow: hidden;
+    margin-left: -35px;
+    margin-top: -15px;
+}
+#footer p.copyright {
+    padding:0;
+    font-size: 12px;
 }
 pre {
     padding: 0;
