@@ -5,6 +5,8 @@ use Fwk\Core\Components\ViewHelper\ViewHelperService;
 
 class FwkDocumentationDataSource extends FwkPackagesDataSource
 {
+    const INTRO_FILE = 'package.html';
+
     protected $buildDir;
 
     public function __construct($fwkBuildDir)
@@ -39,6 +41,27 @@ class FwkDocumentationDataSource extends FwkPackagesDataSource
     {
         $data = $this->doc('SUMMARY', $package, $version);
         return $data;
+    }
+
+    public function intro($package, $version = "master")
+    {
+        $docFile = $this->buildDir
+            . DIRECTORY_SEPARATOR
+            . ucfirst(strtolower($package))
+            . DIRECTORY_SEPARATOR
+            . 'build'
+            . DIRECTORY_SEPARATOR
+            . $version
+            . DIRECTORY_SEPARATOR
+            . 'docs'
+            . DIRECTORY_SEPARATOR
+            . self::INTRO_FILE;
+
+        if (!is_file($docFile)) {
+            return "NO PACKAGE INTRO :(";
+        }
+
+        return file_get_contents($docFile);
     }
 
     public function restoreDocLinks($contents, $package, $version, ViewHelperService $viewHelper)

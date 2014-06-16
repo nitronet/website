@@ -1,6 +1,7 @@
 <?php
 namespace Nitronet\Commands;
 
+use Nitronet\FwkDocumentationDataSource;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -133,6 +134,23 @@ class FwkFetchCommand extends Command implements ServicesAware
             if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
                 $output->writeln('OK');
             }
+        }
+
+        $introFile = $fullDir . DIRECTORY_SEPARATOR . FwkDocumentationDataSource::INTRO_FILE;
+        if (is_file($introFile)) {
+            $finalFile = realpath($buildDir)
+                . DIRECTORY_SEPARATOR
+                . $pkg
+                . DIRECTORY_SEPARATOR
+                . 'build'
+                . DIRECTORY_SEPARATOR
+                . $version
+                . DIRECTORY_SEPARATOR
+                . 'docs'
+                . DIRECTORY_SEPARATOR
+                . FwkDocumentationDataSource::INTRO_FILE;
+
+            file_put_contents($finalFile, file_get_contents($introFile));
         }
     }
 
