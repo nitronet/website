@@ -145,4 +145,36 @@
         <argument>cms</argument>
     </class-definition>
 
+    <!--
+    DATABASE & DAOs
+    -->
+    <array-definition name="db.config">
+        <param key="dbname">:db.database</param>
+        <param key="user">:db.user</param>
+        <param key="password">:db.password</param>
+        <param key="driver">:db.driver</param>
+        <param key="host">:db.hostname</param>
+    </array-definition>
+
+    <class-definition name="db" class="Fwk\Db\Connection" shared="true">
+        <argument>@db.config</argument>
+    </class-definition>
+
+    <!--
+    COMMENTS
+    -->
+    <array-definition name="comments.config">
+        <param key="autoThread">true</param>
+        <param key="threadsTable">comments_threads</param>
+        <param key="threadEntity">Nitronet\Comments\Model\Thread</param>
+        <param key="commentsTable">comments</param>
+        <param key="commentEntity">Nitronet\Comments\Model\Comment</param>
+        <param key="commentPostAction">CommentPost</param>
+    </array-definition>
+
+    <class-definition name="comments" class="Nitronet\Comments\CommentsService" shared="true">
+        <argument>@db</argument>
+        <argument>@comments.config</argument>
+    </class-definition>
+
 </dependency-injection>

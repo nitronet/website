@@ -33,6 +33,11 @@
             <param name="templatesDir">:packageDir/FwkWWW/templates/php</param>
         </result-type>
         <result-type
+                name="php.comments"
+                class="Fwk\Core\Components\ResultType\PhpTemplateResultType">
+            <param name="templatesDir">:packageDir/Nitronet/Comments/templates</param>
+        </result-type>
+        <result-type
             name="json"
             class="Fwk\Core\Components\ResultType\JsonResultType"
         />
@@ -57,6 +62,19 @@
             <result name="cms:page" type="twig">
                 <param name="file">:template</param>
             </result>
+        </action>
+        <action name="CommentsThread" shortcut="Nitronet\Comments\Controllers\Thread:show">
+            <acl type="allow" role="" />
+            <result name="error" type="php.comments">
+                <param name="file">thread_error.php</param>
+            </result>
+            <result name="success" type="twig">
+                <param name="file">comments.twig</param>
+            </result>
+        </action>
+
+        <action name="CommentsCount" shortcut="Nitronet\Comments\Controllers\Thread:countComments">
+            <acl type="allow" role="" />
         </action>
     </actions>
     

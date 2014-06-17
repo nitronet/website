@@ -7,6 +7,21 @@ consoleService = consoleApp
 sessionService = session
 
 [services]
+; ----------------------
+; Database Configuration
+;
+; - db.hostname : mysql server hostname
+; - db.user : mysql user
+; - db.password : mysql password
+; - db.driver : this should be "pdo_mysql" (others might work but haven't been
+; : tested yet.
+; - db.database : mysql database name
+; ----------------------
+db.hostname = localhost
+db.user = forgery
+db.password = forgery
+db.driver = pdo_mysql
+db.database = forgery
 twig.templates.dir = :packageDir/FwkWWW/templates/twig
 assetic.assets.directory = :packageDir/FwkWWW/templates/assets
 assetic.debug = false

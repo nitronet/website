@@ -34,7 +34,8 @@
     "autoload": {
         "psr-0": {
             "FwkWWW": "app",
-            "FwkAssetic": "/home/neiluj/www/framework/fwk-assetic/src"
+            "FwkAssetic": "/home/neiluj/www/framework/fwk-assetic/src",
+            "Nitronet\\Comments": "app"
         }
     }
 }

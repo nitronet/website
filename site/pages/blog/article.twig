@@ -26,6 +26,7 @@
 
     {{ blog.display_article(article, _helper) }}
     <h3><a name="comments"></a>Comments</h3>
+    {{ _helper.embed('CommentsThread', {id: 'homepage', type: 'threaded'})|raw }}
 {% else %}
     <h3>Article not found :(</h3>
     <p>Sorry, we are unable to find the article you are looking for... <br /><br /><a href="{{ _helper.url('PageView', {page: 'blog'}, true)|raw }}" class="btn btn-large btn-default">Blog home &raquo;</a></p>
