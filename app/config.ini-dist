@@ -33,3 +33,15 @@ assetic.cache.strategy = content
 cms.site.path = :packageDir/../site
 fwk.build.dir = :packageDir/../fwk-build
 phpdoc.bin = :packageDir/../phpDoc.phar
+
+; --------------------
+; Comments
+;
+; --------------------
+comments.service = comments
+comments.thread.auto = true
+comments.form.default = Nitronet\Comments\Forms\AnonymousCommentForm
+comments.form.renderer.service = formRenderer
+comments.session.service = session
+comments.entity.thread = Nitronet\Comments\Model\Thread
+comments.entity.comment = Nitronet\Comments\Model\Comment

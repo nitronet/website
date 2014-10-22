@@ -138,8 +138,7 @@ pre {
 }
 .comment-list #comment-box {
     background-color: #eee;
-    border-top-left-radius: 22px;
-    border-bottom-right-radius: 22px;
+    border-radius: 22px;
     padding-bottom:0;
 }
 .comment-list:before {

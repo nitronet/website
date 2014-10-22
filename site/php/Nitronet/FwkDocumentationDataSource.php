@@ -31,7 +31,7 @@ class FwkDocumentationDataSource extends FwkPackagesDataSource
             . $page .'.json';
 
         if (!is_file($docFile) || !is_readable($docFile)) {
-            throw new \InvalidArgumentException('invalid documentation page: '. $page);
+            return false;
         }
 
         return json_decode(file_get_contents($docFile));
@@ -39,8 +39,7 @@ class FwkDocumentationDataSource extends FwkPackagesDataSource
 
     public function summary($package, $version = "master")
     {
-        $data = $this->doc('SUMMARY', $package, $version);
-        return $data;
+        return $this->doc('SUMMARY', $package, $version);
     }
 
     public function intro($package, $version = "master")

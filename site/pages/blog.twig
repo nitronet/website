@@ -1,6 +1,7 @@
 {% set blogCategory = query.category|default(null) %}
     
-{% block title %}{% if blogCategory != null %}{{ blogCategory }} &CenterDot; {% endif %}Blog @ Nitronet &CenterDot; Web development lab{% endblock title %}
+{% block title %}{% if blogCategory != null %}{{ blogCategory }} &CenterDot; {% endif %}Nitronet Blog &CenterDot; Web
+    development lab{% endblock title %}
 
 {% extends "layouts/blog.twig" %}
 
