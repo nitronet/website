@@ -16,7 +16,7 @@
         <intro>INTRO.md</intro>
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-hdd</icon>
-        <versions>master</versions>
+        <versions>master,fix-lib</versions>
     </package>
     <package id="Di">
         <name>Fwk\Di</name>

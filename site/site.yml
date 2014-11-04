@@ -105,5 +105,5 @@ page_config:
             class: Nitronet\FwkPackagesDataSource
             #service: serviceName
             constructor:
-                - /home/neiluj/www/nitronet-www/site/fwk-packages.xml
+                - :packageDir/../site/fwk-packages.xml
                 - @fwk.cache

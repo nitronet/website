@@ -17,7 +17,7 @@
 <ul class="nav nav-tabs packages" id="pkgTabs">
     {% set packs = packages.packages() %}
 {% for id, package in packs %}
-    <li{% if query.package == id %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: id, version: query.version}) }}"><i class="{{ package.icon }}" title="{{ package.description }}"></i> {{ id }}</a></li>
+    <li{% if query.package == id %} class="active"{% endif %}><a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: id, version: "master"}) }}"><i class="{{ package.icon }}" title="{{ package.description }}"></i> {{ id }}</a></li>
 {% endfor %}
 </ul>
 <nav class="navbar navbar-default navbar-inverse pkgNav" role="navigation">
