@@ -1,7 +1,7 @@
 {% macro display_article(article, _helper) %}
-<h2 style="margin-bottom: 5px;"><a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.slug}, true)|raw }}">{{ article.title }}</a></h2>
+<h2 style="margin-bottom: 5px;"><a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true)|raw }}">{{ article.meta('title') }}</a></h2>
 <div class="btn-group">
-    <p style="margin-bottom: 20px; color: #999; padding:0;"><a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.slug}, true)|raw }}"><i class="glyphicon glyphicon-link"></i></a> posted on {{ article.date }} in <a href="{{ _helper.url('PageView', {page: 'blog', category: article.category}, true)|raw }}">{{ article.category }}</a>. <a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.slug}, true)|raw }}#comments"> {{ _helper.embed('CommentsCount', {id: 'blog:' ~ article.slug}) }} comments</a>.</p>
+    <p style="margin-bottom: 20px; color: #999; padding:0;"><a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true)|raw }}"><i class="glyphicon glyphicon-link"></i></a> posted on {{ article.getPublicationDate().format('M d, Y') }} in <a href="{{ _helper.url('PageView', {page: 'blog', category: article.meta('category')|lower}, true)|raw }}">{{ article.meta('category') }}</a>. <a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.slug}, true)|raw }}#comments"> {{ _helper.embed('CommentsCount', {id: 'blog:' ~ article.meta('slug')}) }} comments</a>.</p>
 </div>
 <div class="btn-group" style=" vertical-align: top;">
     <button type="button" style="margin-top:-3px;font-size: 14px;" class="btn btn-link btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -13,5 +13,23 @@
       <li><a href="#">Something else here</a></li>
     </ul>
 </div>
-{{ article.content|raw }}
+<div class="article-content">
+    {{ article.content|raw }}
+</div>
+{% endmacro %}
+
+{% macro display_category_link(categorySlug, categories, _helper) %}
+    {% for slug, cat in categories %}
+        {% if slug|lower == categorySlug|lower %}
+            <a href="{{ _helper.url('PageView', {page: 'blog', category: slug}, true)|raw }}">{{ cat.name }}</a>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro display_category_name(categorySlug, categories, _helper) %}
+{% spaceless %}
+    {% for slug, cat in categories %}
+        {% if slug|lower == categorySlug|lower %}{{ cat.name }}{% endif %}
+    {% endfor %}
+{% endspaceless %}
 {% endmacro %}

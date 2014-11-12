@@ -1,0 +1,21 @@
+categories:
+  general:
+    name: General
+    directory: ~
+    icon: glyphicon glyphicon-book
+  fwk:
+    name: Fwk
+    directory: fwk
+    icon: glyphicon glyphicon-wrench
+  php:
+    name: PHP
+    directory: php
+    icon: glyphicon glyphicon-sound-stereo
+  how-to:
+    name: How-to
+    directory: how-to
+    icon: glyphicon glyphicon-hand-right
+  still-life:
+    name: Still-life
+    directory: still-life
+    icon: glyphicon glyphicon-heart-empty

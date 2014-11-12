@@ -1,6 +1,6 @@
 datasources:
     articles: 
-        class: Nitronet\TestBlogDataSource
+        class: Nitronet\Blog\BlogDataSource
         #service: serviceName
         constructor:
-            - test
+            - :packageDir/../site/blog

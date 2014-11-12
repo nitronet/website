@@ -35,7 +35,7 @@
         <result-type
                 name="php.comments"
                 class="Fwk\Core\Components\ResultType\PhpTemplateResultType">
-            <param name="templatesDir">:packageDir/Nitronet/Comments/templates</param>
+            <param name="templatesDir">/home/neiluj/www/test-git/app/Nitronet/Comments/templates</param>
         </result-type>
         <result-type
             name="json"

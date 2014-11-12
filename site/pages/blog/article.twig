@@ -4,11 +4,13 @@
     
 {% block title %}
 {% if article == null %}
-    Article not found :( &CenterDot; Nitronet
+    Nitronet Blog: Article not found :(
 {% else %}
-    {{ article.title }} &CenterDot; Nitronet Blog &CenterDot; Web development lab
+    {{ article.meta('title') }} &CenterDot; Nitronet Blog
 {% endif %}
 {% endblock title %}
+
+{% set blogCategory = article.meta('category')|default('')|lower %}
 
 {% extends "layouts/blog.twig" %}
 
@@ -16,17 +18,17 @@
 {% if article|default(null) != null %}
 <ol class="breadcrumb" style="margin-bottom:40px">
   <li><a href="{{ _helper.url('PageView', {page: 'blog'}, true)|raw }}">Blog</a></li>
-  {% if article.category|default(null) != null %}
-  <li class="active"><a href="{{ _helper.url('PageView', {page: 'blog', category: article.category}, true)|raw }}">{{ article.category }}</a></li>
+  {% if article.meta('category')|default(null) != null %}
+  <li class="active"><a href="{{ _helper.url('PageView', {page: 'blog', category: article.meta('category')|lower}, true)|raw }}">{{ article.meta('category') }}</a></li>
   {% endif %}
   {% if article|default(null) != null %}
-  <li class="active">{{ article.title }}</li>
+  <li class="active">{{ article.meta('title') }}</li>
   {% endif %}
 </ol>
 
     {{ blog.display_article(article, _helper) }}
     <h3><a name="comments"></a>Comments</h3>
-    {{ _helper.embed('CommentsThread', {id: 'homepage', type: 'threaded'})|raw }}
+    {{ _helper.embed('CommentsThread', {id: 'blog:' ~ article.meta('slug'), type: 'threaded'})|raw }}
 {% else %}
     <h3>Article not found :(</h3>
     <p>Sorry, we are unable to find the article you are looking for... <br /><br /><a href="{{ _helper.url('PageView', {page: 'blog'}, true)|raw }}" class="btn btn-large btn-default">Blog home &raquo;</a></p>

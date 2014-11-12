@@ -164,7 +164,7 @@
     COMMENTS
     -->
     <array-definition name="comments.config">
-        <param key="autoThread">true</param>
+        <param key="autoThread">:comments.thread.auto</param>
         <param key="threadsTable">comments_threads</param>
         <param key="threadEntity">Nitronet\Comments\Model\Thread</param>
         <param key="commentsTable">comments</param>

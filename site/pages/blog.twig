@@ -1,7 +1,8 @@
 {% set blogCategory = query.category|default(null) %}
-    
-{% block title %}{% if blogCategory != null %}{{ blogCategory }} &CenterDot; {% endif %}Nitronet Blog &CenterDot; Web
-    development lab{% endblock title %}
+
+{% import "blog/macros.twig" as blog %}
+
+{% block title %}Nitronet Blog{% if blogCategory != null %} &CenterDot; {{ blog.display_category_name(blogCategory, categories, _helper)|raw }}{% endif %}{% endblock title %}
 
 {% extends "layouts/blog.twig" %}
 
@@ -9,13 +10,23 @@
 <ol class="breadcrumb" style="margin-bottom:40px">
   <li><a href="{{ _helper.url('PageView', {page: 'blog'}, true)|raw }}">Blog</a></li>
   {% if blogCategory != null %}
-  <li class="active"><a href="{{ _helper.url('PageView', {page: 'blog', category: blogCategory}, true)|raw }}">{{ blogCategory }}</a></li>
+  <li class="active">
+      {{ blog.display_category_link(blogCategory, categories, _helper)|raw }}
+  </li>
   {% endif %}
 </ol>
 
-{% set list = articles.fetch([blogCategory]) %}
+{% if blogCategory != null %}
+    {% set list = articles.fetch({category: blogCategory}) %}
+{% else %}
+    {% set list = articles.fetch() %}
+{% endif %}
+
     {% for article in list %}
         {{ blog.display_article(article, _helper) }}
         <hr />
+    {% else %}
+        <h3>Empty category :(</h3>
+        <p>Sorry, they are no articles in this category yet! <br /><br /><a href="{{ _helper.url('PageView', {page: 'blog'}, true)|raw }}" class="btn btn-large btn-default">Blog home &raquo;</a></p>
     {% endfor %}
 {% endblock %}
