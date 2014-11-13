@@ -8,12 +8,12 @@
 
 {% set categories = articles.data('categories.yml').categories %}
 
-{% extends "layouts/main.twig" %}
-
 {% import "blog/macros.twig" as blog %}
 
+{% extends "layouts/main.twig" %}
+
 {% block contents %}
-    <div class="section jumbotron" data-geopattern="Blog {{ blogCategory|default('') }} {{ article.meta|default('') }}">
+    <div class="section jumbotron" data-geopattern="Blog {{ blogCategory|default('') }} {% if article != null %}{{ article.meta('slug')|default('') }}{% endif %}">
       <div class="container">
           <h3 style="margin:0;padding:0"><i class="glyphicon glyphicon-pencil pull-right" id="blogpencil" style="font-size: 130px; margin-top: 30px; margin-left: 0%; opacity: 0.2; position: absolute;"></i> Blog</h3>
       </div>
@@ -39,25 +39,30 @@
             {% endfor %}
         </ul>
 
-        <ul class="nav nav-tabs" id="blogTabs" style="margin: 40px 0">
+        <ul class="nav nav-tabs" id="blogTabs" style="margin: 40px 0 10px 0">
           <li class="active">
             <a href="#recent">Recent Articles</a>
           </li>
             <li class="">
-                <a href="#rcomments">Recent Comments</a>
+                <a href="#rss"><i class="glyphicon glyphicon-signal"></i></a>
             </li>
         </ul>
         <div id="myTabContent" class="tab-content">
-            <div id="recent" class="tab-pane fade active in">
-                <p>articles uptate nisi qui.</p>
+            <div id="recent" class="tab-pane active in">
+                {% set list = articles.fetch({limit: 7}) %}
+                <ul class="list-unstyled bigarticles small" style="margin-bottom: 40px;">
+                    {% for article in list %}
+                        <li>{{  blog.display_article_bigtitle(article, categories, 'h5', 35, _helper)|raw }}</li>
+                    {% endfor %}
+                </ul>
             </div>
-            <div id="rcomments" class="tab-pane fade">
-                <p>articles uptate nisi qui.</p>
+            <div id="rss" class="tab-pane">
+                <p>Stay updated with the <a href="{{ _helper.url('PageView', {page: 'blog'}, true)|raw }}">Nitronet Blog</a> using your favourite RSS Reader!</p>
+                <p style="text-align: center">
+                    <a href="#" class="btn btn-warning">Subscribe {% if blogCategory|default(null) != null %}({{ blogCategory }}){% endif %} <i class="glyphicon glyphicon-signal"></i></a>
+                </p>
             </div>
         </div>
-        <p>
-           <a href="#" class="btn btn-warning">Subscribe {% if blogCategory|default(null) != null %}({{ blogCategory }}){% endif %} <i class="glyphicon glyphicon-signal"></i></a>
-        </p>
     </div>
   </div>
 </div>
@@ -72,10 +77,15 @@ $(function() {
     
     var pencilAnim = function() {
         $('#blogpencil').animate({'margin-left': $('.container').width()-$('#blogpencil').width()-40}, 2000);
-    }
+    };
     
     $(window).resize(pencilAnim);
     pencilAnim();
+
+    $('.sharelink').click(function(e) {
+        e.preventDefault();
+        window.open($(this).attr('href'),$('this').html(),"directories=0,toolbar=0,status=0,menubar=0,scrollbars=no,resizable=yes,width=500,height=300");
+    });
 });
 
 </script>

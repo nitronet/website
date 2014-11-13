@@ -13,5 +13,3 @@ $response = $app->run();
 if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
     $response->send();
 }
-
-ob_end_flush();

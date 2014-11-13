@@ -23,7 +23,7 @@
 {% endif %}
 
     {% for article in list %}
-        {{ blog.display_article(article, _helper) }}
+        {{ blog.display_article(article, categories, _helper) }}
         <hr />
     {% else %}
         <h3>Empty category :(</h3>

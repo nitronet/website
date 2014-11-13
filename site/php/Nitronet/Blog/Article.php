@@ -2,6 +2,8 @@
 namespace Nitronet\Blog;
 
 
+use Michelf\MarkdownExtra;
+use Nitronet\Blog\Exceptions\BlogException;
 use Symfony\Component\Finder\SplFileInfo;
 
 class Article
@@ -50,8 +52,11 @@ class Article
     public function getContent()
     {
         if (!isset($this->content)) {
-            $contents = $this->getRawContent();
-            $this->content = trim(substr($contents, strpos($contents, '---/metas---')+strlen('---/metas---')));
+            $contents = $this->content = $this->getRawContent();
+            if (strpos($contents, '---/metas---') !== false) {
+                $this->content = trim(substr($contents, strpos($contents, '---/metas---') + strlen('---/metas---')));
+                $this->generateContents();
+            }
         }
 
         return $this->content;
@@ -70,11 +75,14 @@ class Article
         if (!isset($this->metas)) {
             $metas = array();
             $contents = $this->getRawContent();
-            $metasContents = substr($contents, 0, strpos($contents, '---/metas---'));
 
-            if (preg_match_all('/([a-z0-9\-_]+):\s+(.+)/i', $metasContents, $matches)) {
-                foreach ($matches[0] as $idx => $infos) {
-                    $metas[$matches[1][$idx]] = $matches[2][$idx];
+            if (strpos($contents, '---/metas---') !== false) {
+                $metasContents = substr($contents, 0, strpos($contents, '---/metas---'));
+
+                if (preg_match_all('/([a-z0-9\-_]+):\s+(.+)/i', $metasContents, $matches)) {
+                    foreach ($matches[0] as $idx => $infos) {
+                        $metas[$matches[1][$idx]] = $matches[2][$idx];
+                    }
                 }
             }
 
@@ -87,5 +95,37 @@ class Article
     protected function getRawContent()
     {
         return $this->fileInfo->getContents();
+    }
+
+    protected function generateContents() {
+        if (!isset($this->content) || empty($this->content)) {
+           return;
+        }
+
+        $ext = strtolower($this->fileInfo->getExtension());
+        switch($ext)
+        {
+            case "md":
+            case "markdown":
+                $this->content = MarkdownExtra::defaultTransform($this->content);
+                break;
+
+            case "php":
+                $tmpFile = tempnam(sys_get_temp_dir(), 'nnblog');
+                if (!$tmpFile) {
+                    throw new BlogException(sprintf('Unable to create temp file: %s', $tmpFile));
+                }
+
+                file_put_contents($tmpFile, $this->content);
+                ob_start();
+                include $tmpFile;
+                $this->content = ob_get_clean();
+                unlink($tmpFile);
+                break;
+
+            case "html":
+
+
+        }
     }
 }

@@ -151,3 +151,43 @@ pre {
     content: '';
     z-index:-999;
 }
+
+ul.bigarticles {
+    padding-top:0;
+    margin-top:0;
+}
+
+.bigarticles span.date {
+    display: inline-block;
+    width: 95px;
+    text-align: left;
+    color: #999;
+    border-right: solid 2px #ccc;
+    margin-right: 5px;
+}
+.bigarticles p.excerp {
+    margin-left: 93px;
+    padding-left: 10px;
+    margin-top: -5px;
+    display:block;
+    font-size: 12px;
+    color: #666;
+    border-left: solid 2px #ccc;
+}
+
+ul.bigarticles.small span.date {
+    width: 75px;
+}
+ul.bigarticles.small p.excerp {
+    margin-left: 73px;
+}
+p.more-blog {
+    margin-left: 90px;
+}
+#recent.tab-pane {
+    padding-top: 0px;
+}
+#myTabContent {
+    margin-top:0px;
+}
+

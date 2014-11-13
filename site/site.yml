@@ -25,7 +25,7 @@ urls:
         parameters:
             slug:
                 required: true
-                regex: .*
+                regex: .+
     "/fwk/:package/api/:version$":
         page: fwk/apidoc
         parameters:

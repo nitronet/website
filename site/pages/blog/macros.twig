@@ -1,16 +1,16 @@
-{% macro display_article(article, _helper) %}
+{% macro display_article(article, categories, _helper) %}
 <h2 style="margin-bottom: 5px;"><a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true)|raw }}">{{ article.meta('title') }}</a></h2>
 <div class="btn-group">
-    <p style="margin-bottom: 20px; color: #999; padding:0;"><a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true)|raw }}"><i class="glyphicon glyphicon-link"></i></a> posted on {{ article.getPublicationDate().format('M d, Y') }} in <a href="{{ _helper.url('PageView', {page: 'blog', category: article.meta('category')|lower}, true)|raw }}">{{ article.meta('category') }}</a>. <a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.slug}, true)|raw }}#comments"> {{ _helper.embed('CommentsCount', {id: 'blog:' ~ article.meta('slug')}) }} comments</a>.</p>
+    <p style="margin-bottom: 20px; color: #999; padding:0;"><a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true)|raw }}"><i class="glyphicon glyphicon-link"></i></a> posted on {{ article.getPublicationDate().format('M d, Y') }} in {{ _self.display_category_link(article.meta('category'), categories, _helper)|raw }}. <a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true)|raw }}#comments"> {{ _helper.embed('CommentsCount', {id: 'blog:' ~ article.meta('slug')}) }} comments</a>.</p>
 </div>
 <div class="btn-group" style=" vertical-align: top;">
     <button type="button" style="margin-top:-3px;font-size: 14px;" class="btn btn-link btn-xs dropdown-toggle" data-toggle="dropdown">
        <i class="glyphicon glyphicon-share"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
-      <li><a href="#">Action</a></li>
-      <li><a href="#">Another action</a></li>
-      <li><a href="#">Something else here</a></li>
+      <li><a class="sharelink" href="https://www.facebook.com/sharer/sharer.php?u={{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true, true)|raw }}">Share on <strong>Facebook</strong></a></li>
+      <li><a class="sharelink" href="https://twitter.com/home?status={{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true, true)|raw }}">Share on <strong>Twitter</strong></a></li>
+      <li><a class="sharelink" href="https://plus.google.com/share?url={{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true, true)|raw }}">Share on <strong>Google+</strong></a></li>
     </ul>
 </div>
 <div class="article-content">
@@ -32,4 +32,11 @@
         {% if slug|lower == categorySlug|lower %}{{ cat.name }}{% endif %}
     {% endfor %}
 {% endspaceless %}
+{% endmacro %}
+
+{% macro display_article_bigtitle(article, categories, enclosingTag, maxLength, _helper) %}
+    <{{ enclosingTag }} style="margin-bottom:5px"><span class="date">{{ article.getPublicationDate().format('d M, y') }}</span> <a href="{{ _helper.url('PageView', {page: 'blog/article', slug: article.meta('slug')}, true)|raw }}" title="{{ article.meta('title') }}">{{ article.meta('title')|slice(0,maxLength) }}{% if article.meta('title')|length > maxLength %}...{% endif %}</a></{{ enclosingTag }}>
+    {% if article.meta('excerp', null) != null %}
+        <p class="excerp">{{ article.meta('excerp', null) }}</p>
+    {% endif %}
 {% endmacro %}
