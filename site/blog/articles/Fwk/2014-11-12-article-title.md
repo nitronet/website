@@ -8,3 +8,10 @@ category: fwk
 ### This is a test article written in Markdown
 
 Oh yeah
+
+
+``` php
+<?php
+
+echo "A little bit of code";
+```

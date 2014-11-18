@@ -4,6 +4,19 @@
     ], null, 'geopattern') %}
     <script type="text/javascript" src="{{ asset }}"></script>
 {% endfor %}
+{% for asset in _helper.asset([
+'+bower/highlight/styles/github.css',
+], null, 'highlight-github') %}
+    <link rel="stylesheet" href="{{ asset }}">
+{% endfor %}
+{% for asset in _helper.asset([
+'+bower/highlight/highlight.pack.js',
+], null, 'highlight') %}
+    <script type="text/javascript" src="{{ asset }}"></script>
+{% endfor %}
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
 {% endblock %}
 
 {% set categories = articles.data('categories.yml').categories %}

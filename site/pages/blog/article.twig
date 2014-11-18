@@ -1,7 +1,6 @@
 {% set list = articles.one(query.slug) %}
 {% set article = list[0]|default(null) %}
     
-    
 {% block title %}
 {% if article == null %}
     Nitronet Blog: Article not found :(
