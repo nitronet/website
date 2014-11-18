@@ -191,3 +191,25 @@ p.more-blog {
     margin-top:0px;
 }
 
+.gist .gist-file .gist-data {
+    background-color: #fff;
+    color: #333;
+}
+.gist pre.line-pre {
+    box-shadow: none;
+    border:none;
+    line-height: 16.8px;
+    font-size: 12px;
+}
+.gist .gist-file .gist-data .line-numbers {
+    line-height: 16.8px;
+    background-color: #F7F7F7;
+    border-right:solid 1px #ccc;
+}
+.gist .line span.k, .gist .line span.p, .gist .line span.nx, .gist .line span.o {
+    color: #333;
+}
+
+.twitter-timeline {
+    width: 100% !important;
+}

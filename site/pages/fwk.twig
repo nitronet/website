@@ -38,12 +38,14 @@
             <p class="more-blog">&boxur; <small>Go to the <a href="{{ _helper.url('PageView', {page: 'blog', 'category': 'fwk'}, true)|raw }}">Fwk Blog</a> for more articles.</small></p>
         </div> 
         <div class="col-md-6">
-            <h3>Featured Example</h3>
-            
-            <code>echo $string;</code>
+            {% set gist = packages.getRandomGist() %}
+
+            <h3>Random Example with <a href="{{ _helper.url('PageView', {page: 'fwk/intro', package: gist.pkgId})|raw }}">{{ gist.package }}</a></h3>
+            <script src="{{ gist.embed }}"></script>
+            <p class="gist-desc">{{ gist.title }}{% if gist.doc != false %} <a href="{{ _helper.url('PageView', {page: 'fwk/doc', package: gist.pkgId, docPage: gist.doc, version: 'master'})|raw }}" class="btn btn-default btn-xs">read more</a>{% endif %}</p>
 
             <h3 style="margin-top:40px">Twitter</h3>
-            <a class="twitter-timeline"  href="https://twitter.com/phpfwk"  data-widget-id="476824044407250944">Tweets de @phpfwk</a>
+            <a class="twitter-timeline"  href="https://twitter.com/phpfwk"  data-widget-id="476824044407250944">Tweets of @phpfwk</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         </div>
     </div>

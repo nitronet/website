@@ -63,12 +63,32 @@ class FwkPackagesDataSource implements DataSource
         };
 
         if ($this->cache instanceof Manager) {
-            $this->packages = $this->cache->get('fwk:packages', '1day', $fetch)->getContents();;
+            $this->packages = $this->cache->get('fwk:packages', '1day', $fetch)->getContents();
+        } else {
+            $this->packages = $fetch();
+        }
+    }
+
+    public function getRandomGist()
+    {
+        $gists = array();
+        $pkgs = $this->packages();
+
+        foreach ($pkgs as $pkgId => $pkg) {
+            foreach ($pkg['gists'] as $gist) {
+                $gists[] = array(
+                    'package' => $pkg['name'],
+                    'pkgId' => $pkgId,
+                    'title' => $gist['title'],
+                    'doc'   => $gist['doc'],
+                    'embed' => $gist['embed']
+                );
+            }
         }
 
-        $this->packages = $fetch();
+        return $gists[rand(0, count($gists)-1)];
     }
-    
+
     /**
      * 
      * @return Map
@@ -86,6 +106,13 @@ class FwkPackagesDataSource implements DataSource
                 ->addChildren(Path::factory('docs', 'docs'))
                 ->addChildren(Path::factory('icon', 'icon'))
                 ->addChildren(Path::factory('versions', 'versions'))
+                ->addChildren(
+                    Path::factory('gists/gist', 'gists', array())
+                    ->loop(true)
+                    ->addChildren(Path::factory('title', 'title'))
+                    ->addChildren(Path::factory('embed', 'embed', false))
+                    ->addChildren(Path::factory('doc', 'doc', false))
+                )
         );
         
         return $map;

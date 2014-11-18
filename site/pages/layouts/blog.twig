@@ -28,7 +28,7 @@
 {% block contents %}
     <div class="section jumbotron" data-geopattern="Blog {{ blogCategory|default('') }} {% if article != null %}{{ article.meta('slug')|default('') }}{% endif %}">
       <div class="container">
-          <h3 style="margin:0;padding:0"><i class="glyphicon glyphicon-pencil pull-right" id="blogpencil" style="font-size: 130px; margin-top: 30px; margin-left: 0%; opacity: 0.2; position: absolute;"></i> Blog</h3>
+          <h3 style="margin:0;padding:0">Blog</h3>
       </div>
   </div>
 <div class="container">
@@ -87,13 +87,6 @@ $(function() {
     });
     
     $('.jumbotron').geopattern($('.jumbotron').data('geopattern'));
-    
-    var pencilAnim = function() {
-        $('#blogpencil').animate({'margin-left': $('.container').width()-$('#blogpencil').width()-40}, 2000);
-    };
-    
-    $(window).resize(pencilAnim);
-    pencilAnim();
 
     $('.sharelink').click(function(e) {
         e.preventDefault();

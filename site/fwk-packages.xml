@@ -8,6 +8,13 @@
         <docs>docs/</docs>
         <icon>glyphicon glyphicon-cog</icon>
         <versions>master</versions>
+        <gists>
+            <gist>
+                <title>Simplest Hello World</title>
+                <embed>https://gist.github.com/neiluJ/6b9debf143d4c7a06146.js</embed>
+                <doc>examples/simple</doc>
+            </gist>
+        </gists>
     </package>
     <package id="Db">
         <name>Fwk\Db</name>
