@@ -1,3 +1,35 @@
+@font-face {
+    font-family: 'Mono Social Icons Font';
+    src: url('./fonts/MonoSocialIconsFont-1.10.eot');
+    src: url('./fonts/MonoSocialIconsFont-1.10.eot?#iefix') format('embedded-opentype'),
+    url('./fonts/MonoSocialIconsFont-1.10.woff') format('woff'),
+    url('./fonts/MonoSocialIconsFont-1.10.ttf') format('truetype'),
+    url('./fonts/MonoSocialIconsFont-1.10.svg#MonoSocialIconsFont') format('svg');
+    src: url('./fonts/MonoSocialIconsFont-1.10.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.symbol, a.symbol:before {
+    font-family: 'Mono Social Icons Font';
+    -webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    -ms-text-rendering: optimizeLegibility;
+    -o-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -ms-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+
+a.symbol:before {
+    content: attr(title);
+    margin-right: 0.3em;
+    font-size: 130%;
+}
+
 .section {
     margin-top: -20px;
     z-index:-900;
@@ -200,6 +232,7 @@ p.more-blog {
     border:none;
     line-height: 16.8px;
     font-size: 12px;
+    color: #333;
 }
 .gist .gist-file .gist-data .line-numbers {
     line-height: 16.8px;
@@ -212,4 +245,40 @@ p.more-blog {
 
 .twitter-timeline {
     width: 100% !important;
+}
+
+#bigfooter {
+    display: block;
+    background-color: #412A96;
+    margin-top: 60px;
+    padding: 10px 0 0 0;
+    color: #fff;
+    clear: both;
+}
+
+#bigfooter .container {
+    min-height: 100px;
+}
+#copyright {
+    background-color: #382482;
+    padding: 10px 15px 5px 15px;
+    display: block;
+    text-align: center;
+    margin:0;
+    color: #7A62D3;
+}
+#copyright a {
+    color: #fff;
+}
+
+.socials {
+    margin: 20px auto 20px auto;
+    font-size: 14px;
+}
+.socials span {
+    font-size: 28px;
+}
+.socials a:hover {
+    text-decoration: none;
+    color: #fff;
 }

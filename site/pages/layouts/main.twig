@@ -68,18 +68,29 @@
     </div><!-- /navbar -->
     
     {% block contents %}{% endblock %}
-    
-    <div id="footer">
+
+    <div id="bigfooter">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <i class="glyphicon glyphicon-fire"></i>
-                    <p class="copyright">Content under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a> and the <a href="https://github.com/nitronet/website">Source</a> is licensed under <a href="http://choosealicense.com/licenses/gpl-v3/">GPL v3</a>.<br />Everything else is copyright &copy; 2014 <a href="http://neiluj.pro">Julien Ballestracci</a>.
-                    The comments and contributed content are the responsibility of their respective authors.<br />Found a bug ? Have a suggestion ? <a href="https://github.com/nitronet/website/issues">Let me know</a> !</p>
+                <div class="col-md-4">
+                    <h4>Nitronet</h4>
+
+                </div>
+                <div class="col-md-4">
+                    <h4>Fwk</h4>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline socials">
+                        <li><a href="https://github.com/nitronet"><span class="symbol">&#xe437;</span> Nitronet</a></li>
+                        <li><a href="https://github.com/fwk"><span class="symbol">&#xe437;</span> Fwk</a></li>
+                        <li><a href="https://twitter.com/nitronet"><span class="symbol">&#xe486;</span> Follow us!</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
+        <p id="copyright">&copy; Nitronet 2014-2015. <a href="#">Terms Of Use</a></p>
     </div>
+
 {% block footertag %}{% endblock %}
   </body>
 
