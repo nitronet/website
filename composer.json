@@ -18,7 +18,6 @@
         "dflydev/markdown": "dev-master",
         "fwk/db": "dev-master",
         "symfony/console": "dev-master",
-        "symfony/process": "dev-master",
         "fwk/form": "dev-master",
         "monolog/monolog": "dev-master",
         "nitronet/fwk-twig": "dev-master",
