@@ -3,33 +3,6 @@
     <ini category="services">:baseDir/config.ini</ini>
     
     <!--
-        TWIG (fwk-twig)
-    -->
-    <array-definition name="twig.config">
-        <param key="debug">true</param>
-        <param key="cache">:packageDir/../cache</param>
-    </array-definition>
-    
-    <!-- Twig_Loader definition -->
-    <array-definition name="twig.paths">
-        <param>:packageDir/../site/pages</param>
-    </array-definition>
-    
-    <class-definition name="twig.loader" class="\Twig_Loader_Filesystem" shared="true">
-        <argument>@twig.paths</argument>
-    </class-definition>
-
-    <!-- Twig_Environment definition -->
-    <class-definition name="twigDebugExt" class="\Twig_Extension_Debug" />
-    <class-definition name="twig" class="\Twig_Environment" shared="true">
-        <argument>@twig.loader</argument>
-        <argument>@twig.config</argument>
-        <call method="addExtension">
-            <argument>@twigDebugExt</argument>
-        </call>
-    </class-definition>
-
-    <!--
         CMS
     -->
     <class-definition name="cms.twigProvider" class="FwkWWW\Providers\Page\TwigFilesystemProvider" shared="true">

@@ -25,23 +25,6 @@
                 class="Fwk\Core\Components\ResultType\PhpTemplateResultType">
             <param name="templatesDir">/home/neiluj/www/test-git/app/Nitronet/Comments/templates</param>
         </result-type>
-        <result-type
-            name="json"
-            class="Fwk\Core\Components\ResultType\JsonResultType"
-        />
-        <result-type
-            name="chain"
-            class="Fwk\Core\Components\ResultType\ChainResultType"
-        />
-        <result-type
-            name="redirect"
-            class="Fwk\Core\Components\ResultType\RedirectResultType">
-            <param name="requestMatcher">:requestMatcherService</param>
-            <param name="urlRewriter">:urlRewriterService</param>
-        </result-type>
-        <result-type name="twig" class="FwkTwig\TwigResultType">
-            <param name="twigService">twig</param>
-        </result-type>
     </result-types>
     
     <actions>

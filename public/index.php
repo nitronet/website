@@ -1,23 +1,29 @@
 <?php
+namespace App;
+
 require_once __DIR__ .'/../vendor/autoload.php';
 
 use Fwk\Core\Components\Descriptor\Descriptor;
-
-ob_start("ob_gzhandler");
+use Fwk\Core\Plugins\RequestMatcherPlugin;
+use Fwk\Core\Plugins\ResultTypePlugin;
+use Fwk\Core\Plugins\UrlRewriterPlugin;
+use Fwk\Core\Plugins\ViewHelperPlugin;
+use Nitronet\Fwk\Assetic\AsseticPlugin;
+use Nitronet\Fwk\Twig\TwigPlugin;
+use Symfony\Component\HttpFoundation\Response;
 
 $desc = new Descriptor(__DIR__ .'/../app/fwk.xml');
-$app = $desc->execute('FwkWWW');
-
-$app->setDefaultAction('Home');
+$app = $desc->execute('FwkWWW')
+    ->setDefaultAction('Home');
 
 $services = $app->getServices();
 
-$app->plugin(new \Fwk\Core\Plugins\RequestMatcherPlugin())
-    ->plugin(new \Fwk\Core\Plugins\UrlRewriterPlugin())
-    ->plugin(new \Fwk\Core\Plugins\ResultTypePlugin())
-    ->plugin(new \Fwk\Core\Plugins\ViewHelperPlugin());
+$app->plugin(new RequestMatcherPlugin())
+    ->plugin(new UrlRewriterPlugin())
+    ->plugin(new ResultTypePlugin())
+    ->plugin(new ViewHelperPlugin());
 
-$app->plugin(new \Nitronet\Fwk\Assetic\AsseticPlugin(array(
+$app->plugin(new AsseticPlugin(array(
     'directory' => $services->getProperty('assetic.assets.directory'),
     'debug' => $services->getProperty('assetic.debug', true),
     'action' => $services->getProperty('assetic.action.name'),
@@ -30,7 +36,18 @@ array(
     'bower' => __DIR__ .'/../site/bower_components'
 )));
 
+$app->plugin(new TwigPlugin(array(
+    'directory' => $services->getProperty('twig.templates.dir'),
+    'debug' => true,
+    'twig' => array(
+        'debug' => $services->getProperty('twig.debug', false),
+        'cache' => $services->getProperty('twig.cache.dir', null)
+    )
+)));
+
+ob_start("ob_gzhandler");
+
 $response = $app->run();
-if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
+if ($response instanceof Response) {
     $response->send();
 }
