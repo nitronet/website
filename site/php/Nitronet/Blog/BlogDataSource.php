@@ -60,7 +60,7 @@ class BlogDataSource implements DataSource
 
     public function data($fileName)
     {
-        return Yaml::parse($this->pathUtil(array(self::DIR_DATA, $fileName)));
+        return Yaml::parse(file_get_contents($this->pathUtil(array(self::DIR_DATA, $fileName))));
     }
 
     protected function pathUtil(array $paths)

@@ -150,7 +150,7 @@ class CmsService extends Dispatcher
         }
         
         try {
-            $cfg = Yaml::parse($this->configFile);
+            $cfg = Yaml::parse(file_get_contents($this->configFile));
             $this->config = ConfigUtils::merge($cfg);
         } catch(\Exception $exp) {
             throw new InvalidConfigFile($this->configFile, null, $exp);

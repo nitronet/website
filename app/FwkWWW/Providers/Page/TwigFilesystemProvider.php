@@ -57,7 +57,7 @@ class TwigFilesystemProvider implements PageProvider
         }
         
         try {
-            $pcfg = ConfigUtils::merge(Yaml::parse($path), $config['page_config']);
+            $pcfg = ConfigUtils::merge(Yaml::parse(file_get_contents($path)), $config['page_config']);
         } catch(\Exception $exp) {
             throw new InvalidConfigFile($path, null, $exp);
         }
