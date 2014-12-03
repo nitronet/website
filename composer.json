@@ -24,15 +24,15 @@
         "symfony/yaml": "dev-master",
         "symfony/finder": "dev-master",
         "michelf/php-markdown": "1.4.*@dev",
-        "fwk/cache": "dev-master"
+        "fwk/cache": "dev-master",
+        "nitronet/fwk-comments": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "dev-master"
     },
     "autoload": {
         "psr-0": {
-            "FwkWWW": "app",
-            "Nitronet\\Comments": "/home/neiluj/www/test-git/app"
+            "FwkWWW": "app"
         }
     }
 }

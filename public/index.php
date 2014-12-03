@@ -10,6 +10,7 @@ use Fwk\Core\Plugins\UrlRewriterPlugin;
 use Fwk\Core\Plugins\ViewHelperPlugin;
 use Nitronet\Fwk\Assetic\AsseticPlugin;
 use Nitronet\Fwk\Twig\TwigPlugin;
+use Nitronet\Fwk\Comments\CommentsPlugin;
 use Symfony\Component\HttpFoundation\Response;
 
 $desc = new Descriptor(__DIR__ .'/../app/fwk.xml');
@@ -43,6 +44,21 @@ $app->plugin(new TwigPlugin(array(
         'debug' => $services->getProperty('twig.debug', false),
         'cache' => $services->getProperty('twig.cache.dir', null)
     )
+)));
+
+$app->plugin(new CommentsPlugin(array(
+    'db' => $services->getProperty('comments.services.database', 'db'),
+    'sessionService'    => $services->getProperty('comments.services.session', 'session'),
+    'rendererService'   => $services->getProperty('comments.services.renderer', 'formRenderer'),
+    'threadsTable'  => $services->getProperty('comments.tables.threads', 'comments_threads'),
+    'threadEntity'  => $services->getProperty('comments.entities.thread', 'Nitronet\Fwk\Comments\Model\Thread'),
+    'commentsTable' => $services->getProperty('comments.tables.comments', 'comments'),
+    'commentEntity' => $services->getProperty('comments.entities.comment', 'Nitronet\Fwk\Comments\Model\Comment'),
+    'commentForm'   => $services->getProperty('comments.form', 'Nitronet\Fwk\Comments\Forms\AnonymousCommentForm'),
+    'autoThread'    => $services->getProperty('comments.auto.thread', false),
+    'autoApprove'   => $services->getProperty('comments.auto.approve', true),
+    'dateFormat'    => $services->getProperty('comments.date.format', 'Y-m-d H:i:s'),
+    'serviceName'   => $services->getProperty('comments.service', 'comments')
 )));
 
 ob_start("ob_gzhandler");

@@ -37,9 +37,14 @@ phpdoc.bin = :packageDir/../phpDoc.phar
 ;
 ; --------------------
 comments.service = comments
-comments.thread.auto = true
-comments.form.default = Nitronet\Comments\Forms\AnonymousCommentForm
-comments.form.renderer.service = formRenderer
-comments.session.service = session
-comments.entity.thread = Nitronet\Comments\Model\Thread
-comments.entity.comment = Nitronet\Comments\Model\Comment
+comments.services.database = db
+comments.services.session = session
+comments.services.renderer = formRenderer
+comments.tables.threads = comments_threads
+comments.tables.comments = comments
+comments.entities.thread = Nitronet\Fwk\Comments\Model\Thread
+comments.entities.comment = Nitronet\Fwk\Comments\Model\Comment
+comments.auto.approve = true
+comments.auto.thread = true
+comments.date.format = Y-m-d H:i:s
+comments.form = Nitronet\Comments\Forms\AnonymousCommentForm

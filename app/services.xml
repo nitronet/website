@@ -54,21 +54,4 @@
         <argument>@db.config</argument>
     </class-definition>
 
-    <!--
-    COMMENTS
-    -->
-    <array-definition name="comments.config">
-        <param key="autoThread">:comments.thread.auto</param>
-        <param key="threadsTable">comments_threads</param>
-        <param key="threadEntity">Nitronet\Comments\Model\Thread</param>
-        <param key="commentsTable">comments</param>
-        <param key="commentEntity">Nitronet\Comments\Model\Comment</param>
-        <param key="commentPostAction">CommentPost</param>
-    </array-definition>
-
-    <class-definition name="comments" class="Nitronet\Comments\CommentsService" shared="true">
-        <argument>@db</argument>
-        <argument>@comments.config</argument>
-    </class-definition>
-
 </dependency-injection>
